@@ -1,0 +1,359 @@
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.*;
+
+public class GeneratorTest {
+
+    int[][] grid1;
+    int[][] solvableLevel;
+    Generator generator;
+    Generator playableGenerator;
+
+    @Before
+    public void generateGrid() {
+        //solution for a test level
+        grid1 = new int[][] {   {102, 1, -1, 300, 59},
+                                {59, 0, -1, 57, 0},
+                                {-1, 0, 1, 308, 0},
+                                {206, 0, -1, -1, 57} };
+
+        int[][] solvableLevel = new int[][] {{102, 1, -1, 300, 0},
+                                            {0, 0, -1, 0, 0},
+                                            {-1, 0, -1, 1, 0},
+                                            {206, 0, -1, -1, 0}}; //4 mirrors are needed for the solution
+
+        generator = new Generator(5, 4, grid1);
+        playableGenerator = new Generator(5, 4, solvableLevel, 4);
+
+    }
+
+
+    @Test
+    public void endLaserPosition1() {
+
+        int calculatedEndLaserPosition = generator.endLaserPosition(0, 2);
+
+        assertEquals("The calculated laser end position doesn't match the expected one", 3, calculatedEndLaserPosition);
+    }
+
+    @Test
+    public void endLaserPosition2() {
+
+        int calculatedEndLaserPosition = generator.endLaserPosition(0, 6);
+
+        assertEquals("The calculated laser end position doesn't match the expected one", 1, calculatedEndLaserPosition);
+    }
+
+    @Test
+    public void endLaserPosition3() {
+
+        int calculatedEndLaserPosition = generator.endLaserPosition(15, 6);
+
+        assertEquals("The calculated laser end position doesn't match the expected one", 3, calculatedEndLaserPosition);
+    }
+
+    @Test
+    public void endLaserPosition6() {
+
+        int calculatedEndLaserPosition = generator.endLaserPosition(15, 8);
+
+        assertEquals("The calculated laser end position doesn't match the expected one", 5, calculatedEndLaserPosition);
+    }
+
+    @Test
+    public void endLaserPosition4() {
+
+        int calculatedEndLaserPosition = generator.endLaserPosition(13, 8);
+
+        assertEquals("The calculated laser end position doesn't match the expected one", 9, calculatedEndLaserPosition);
+    }
+
+    @Test
+    public void endLaserPosition5() {
+
+        int calculatedEndLaserPosition = generator.endLaserPosition(13, 6);
+
+        assertEquals("The calculated laser end position doesn't match the expected one", 14, calculatedEndLaserPosition);
+    }
+
+    @Test
+    public void getSourceDirection() {
+        int source1 = 104;
+        int source2 = 202;
+        int source3 = 308;
+        int source4 = 406;
+        int notValidSource = 509;
+        int error = Integer.MIN_VALUE;
+
+        int left = 4;
+        int right = 6;
+        int up = 8;
+        int down = 2;
+
+        assertEquals("The calculated source direction doesn't match the expected one", left, generator.getSourceDirection(source1));
+        assertEquals("The calculated source direction doesn't match the expected one", right, generator.getSourceDirection(source4));
+        assertEquals("The calculated source direction doesn't match the expected one", up, generator.getSourceDirection(source3));
+        assertEquals("The calculated source direction doesn't match the expected one", down, generator.getSourceDirection(source2));
+        assertEquals("The calculated direction of a not valid source doesn't match the expected warning", error, generator.getSourceDirection(notValidSource));
+    }
+
+    @Test
+    public void getElementAtPosition() {
+
+        assertEquals("The found element at given position doesn't match the expected one", 59, generator.getElementAtPosition(5));
+        assertEquals("The found element at given position doesn't match the expected one", 102, generator.getElementAtPosition(0));
+        assertEquals("The found element at given position doesn't match the expected one", 57, generator.getElementAtPosition(19));
+        assertEquals("The found element at given position doesn't match the expected one", -1, generator.getElementAtPosition(7));
+        assertEquals("The found element at given position doesn't match the expected one", 308, generator.getElementAtPosition(13));
+
+        assertEquals("The found element at given position doesn't match the expected one", Integer.MIN_VALUE, generator.getElementAtPosition(20));
+    }
+
+
+
+    /** Takes more than 20 Minutes and still doesn't solve the level! **/
+    /* @Test
+    public void findASolutionWith6Mirrors() {
+        int[][] solvableLevel = new int[][] {       {0, 0, 0, 1, -1},
+                                                    {0, 1, 0, 0, 104},
+                                                    {-1, -1, 0, 0, 300},
+                                                    {208, 0, 0, 0, 0} };
+        int[][] solution = new int[][] {    {57, 0, 59, 1, -1},
+                                            {0, 1, 0, 57, 104},
+                                            {-1, -1, 0, 59, 300},
+                                            {208, 0, 59, 0, 57} };
+
+        int[] sources = {104, 208};
+        int[] goals = {300};
+        int[] sourcesPositions = {9, 15};
+        int[] goalPosition = {14};
+        Generator gen = new Generator(5, 4, solvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel);
+
+        assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solvableLevel, solution));
+    } */
+
+    @Test
+    public void testFindASolution4() {
+        int[][] solvableLevel = new int[][] {{0, 0, 300, 0, 204},
+                                             {0, 0, -1, 1, 1},
+                                             {0, 0, 104, 1, -1},
+                                             {-1, 1, -1, -1, 1} };
+
+        int[] sources = {104, 204};
+        int[] goals = {300};
+        int[] sourcesPositions = {12, 4};
+        int[] goalPosition = {2};
+        Generator gen = new Generator(5, 4, solvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(3, solvableLevel, false);
+
+        //assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, playableGenerator.findASolution());
+    }
+
+    /** Takes > 7s (because 5 mirrors) **/
+   @Test
+    public void testFindASolution3() {
+        int[][] solvableLevel = new int[][] {   {0, 0, 1, 100},
+                                                {0, -1, -1, 0},
+                                                {1, 0, 0, 1},
+                                                {0, 0, 0, 104}};
+
+        int[] sources = {104};
+        int[] goals = {100};
+        int[] sourcesPositions = {15};
+        int[] goalPosition = {3};
+        Generator gen = new Generator(4, 4, solvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(5, solvableLevel, false);
+
+        //assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, playableGenerator.findASolution());
+    }
+
+   /** with an extra source that is not needed to solve the level **/
+    @Test
+    public void testFindASolution2() {
+        int[][] solvableLevel = new int[][] {       { 102, 1, -1, 300, 0},
+                                                    {   0, 0, -1,   0, 0},
+                                                    {  -1, 0, -1, 408, 0},
+                                                    { 206, 0, -1,  -1, 0} };
+
+        int[][] expectedGrid = new int[][] {        {102, 1, -1, 300, 59},
+                                                    {59, 0, -1, 57, 0},
+                                                    {-1, 0, -1, 408, 0},
+                                                    {206, 0, -1, -1, 57} };
+
+        Generator gen = new Generator(5, 4, solvableLevel, 4);
+        int[] sources = {102, 206, 408};
+        int[] goals = {300};
+        int[] sourcesPositions = {0, 15, 13};
+        int[] goalPosition = {3};
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(4, solvableLevel, false);
+
+        assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, foundSolutions.get(0));
+    }
+
+    @Test
+    public void findASolution1() {
+        int[][] expectedGrid = new int[][] {    {0, 1, 102},
+                                                {-1, 0, -1},
+                                                {57, 0, 57},
+                                                {100, 1, 0}};
+
+        int[][] solvableGrid = new int[][] {    {0, 1, 102},
+                                                {-1, 0, -1},
+                                                {0, 0, 0},
+                                                {100, 1, 0}};
+
+        int[] sources = {102};
+        int[] goals = {100};
+        int[] sourcesPositions = {2};
+        int[] goalPosition = {9};
+        Generator gen = new Generator(3, 4, solvableGrid, 2);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, solvableGrid,false);
+
+        assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(expectedGrid, foundSolutions.get(0)));
+    }
+
+    @Test
+    public void allSourcesReachedTheGoal() {
+        int[][] solvedLevel = new int[][] {     {102, 1, -1, 300, 59},
+                                                {59,  0, -1,  57,  0},
+                                                {-1,  0, -1,   0,  0},
+                                                {206, 0, -1,  -1, 57} };
+
+        Generator generator = new Generator(5, 4, solvedLevel);
+        int[] sources = {102, 206};
+        int[] goals = {300};
+        int[] sourcesPositions = {0, 15};
+        int[] goalPosition = {3};
+        generator.setSources(sources);
+        generator.setGoals(goals);
+        generator.setSourcesPositions(sourcesPositions);
+        generator.setGoalsPositions(goalPosition);
+
+        assertEquals("All sources were expected to reach the goal, but this didn't happen", true, generator.allSourcesReachedTheGoal());
+    }
+
+    @Test
+    public void allSourcesReachedTheGoal2() {
+        int[][] solvedLevel = new int[][] { {102, 406, 400, 300, 59},
+                                            {59,  0, -1,  57,  0},
+                                            {-1,  0, -1,   0,  0},
+                                            {206, 0, -1,  -1, 57}};
+
+        Generator generator = new Generator(5, 4, solvedLevel);
+        int[] sources = { 206, 102,406};
+        int[] goals = {300, 400};
+        int[] sourcesPositions = {15, 0, 1};
+        int[] goalPosition = {3, 2};
+        generator.setSources(sources);
+        generator.setGoals(goals);
+        generator.setSourcesPositions(sourcesPositions);
+        generator.setGoalsPositions(goalPosition);
+
+        assertEquals("All sources were expected to reach the goal, but this didn't happen", true, generator.allSourcesReachedTheGoal());
+    }
+
+    @Test
+    public void allSourcesReachedTheGoal3() {
+        int[][] notAValidSolvedLevel = {   {206, -1, -1, -1, 0},
+                                    {1, 300, 59, 106, 57},
+                                    {1, -1, 1, 1, 0},
+                                    {1, 59, 0, 59, -1}};
+
+        Generator generator = new Generator(5, 4, notAValidSolvedLevel);
+        int[] sources = { 206, 106 };
+        int[] goals = {300};
+        int[] sourcesPositions = {0, 8};
+        int[] goalPosition = {6};
+        generator.setSources(sources);
+        generator.setGoals(goals);
+        generator.setSourcesPositions(sourcesPositions);
+        generator.setGoalsPositions(goalPosition);
+
+        assertEquals("All sources were expected to reach the goal, but this didn't happen", false, generator.allSourcesReachedTheGoal());
+    }
+
+    @Test
+    public void allSourcesReachedTheGoal4() {
+        int[][] notAValidSolvedLevel = {   {-1, 1, 57, -1, 0},
+                                            {0, 300, 1, -1, 0},
+                                            {-1, 1, 206, -1, 59},
+                                            {0, 1, 1, 106, 0}};
+
+        Generator generator = new Generator(5, 4, notAValidSolvedLevel);
+        int[] sources = { 206, 106 };
+        int[] goals = {300};
+        int[] sourcesPositions = {12, 18};
+        int[] goalPosition = {6};
+        generator.setSources(sources);
+        generator.setGoals(goals);
+        generator.setSourcesPositions(sourcesPositions);
+        generator.setGoalsPositions(goalPosition);
+
+        assertEquals("All sources were expected to reach the goal, but this didn't happen", false, generator.allSourcesReachedTheGoal());
+    }
+
+    @Test
+    public void allSourcesReachedTheGoal5() {
+        int[][] notAValidSolvedLevel = {{0, -1, 59, 1, 1},
+                                        {108, 57, -1, -1, 204},
+                                        {-1, 59, 57, 1, 300},
+                                        {1, 1, 1, -1, -1} };
+
+
+        Generator generator = new Generator(5, 4, notAValidSolvedLevel);
+        int[] sources = { 204, 108 };
+        int[] goals = {300};
+        int[] sourcesPositions = {9, 5};
+        int[] goalPosition = {14};
+        generator.setSources(sources);
+        generator.setGoals(goals);
+        generator.setSourcesPositions(sourcesPositions);
+        generator.setGoalsPositions(goalPosition);
+
+        assertEquals("All sources were expected to reach the goal, but this didn't happen", false, generator.allSourcesReachedTheGoal());
+    }
+
+    @Test
+    public void gridToString() {
+        int[][] grid = { {102, 406, 400, 300, 59},
+                {59,  0, -1,  57,  0},
+                {-1,  0, -1,   0,  0},
+                {206, 0, -1,  -1, 57}};
+
+        String expectedResult = "[102] [406] [400] [300] [59] " + "\n" + "[59] [0] [-1] [57] [0] " + "\n" + "[-1] [0] [-1] [0] [0] " + "\n" + "[206] [0] [-1] [-1] [57] " + "\n";
+        String actualResult = generator.gridToString(grid);
+
+        assertEquals("By converting a grid into String the actual result didn't match the expected result", expectedResult, actualResult);
+    }
+
+
+}
