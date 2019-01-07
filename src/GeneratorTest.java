@@ -114,17 +114,27 @@ public class GeneratorTest {
 
 
 
-    /** Takes more than 20 Minutes and still doesn't solve the level! **/
-    /* @Test
-    public void findASolutionWith6Mirrors() {
+    /** Takes more than 20 Minutes and still doesn't solve the level! **/ /** Solved in 18m 25s **/ /** Best time 18m 25s **/
+     @Test
+    public void findAllSolutionWith6Mirrors() {
         int[][] solvableLevel = new int[][] {       {0, 0, 0, 1, -1},
                                                     {0, 1, 0, 0, 104},
                                                     {-1, -1, 0, 0, 300},
                                                     {208, 0, 0, 0, 0} };
-        int[][] solution = new int[][] {    {57, 0, 59, 1, -1},
+
+        int[][] solution1 = new int[][] {   {57, 0, 59, 1, -1},
                                             {0, 1, 0, 57, 104},
                                             {-1, -1, 0, 59, 300},
                                             {208, 0, 59, 0, 57} };
+
+         int[][] solution2 = new int[][] {  {57, 0, 59, 1, -1},
+                                            {0, 1, 0, 57, 104},
+                                            {-1, -1, 59, 0, 300},
+                                            {208, 0, 0, 59, 57} };
+
+         ArrayList<int[][]> solutions = new ArrayList<>();
+         solutions.add(solution1);
+         solutions.add(solution2);
 
         int[] sources = {104, 208};
         int[] goals = {300};
@@ -136,10 +146,10 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel, true);
 
-        assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solvableLevel, solution));
-    } */
+        assertEquals("The found solution for the given grid doesn't match the expected one", foundSolutions, solutions);
+    }
 
     @Test
     public void testFindASolution4() {
@@ -163,7 +173,7 @@ public class GeneratorTest {
         //assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, playableGenerator.findASolution());
     }
 
-    /** Takes > 7s (because 5 mirrors) **/
+    /** Takes > 7s (because 5 mirrors) **/ /** Worst time 3,5s **/ /** Best time 2,7s (with adapter) **/
    @Test
     public void testFindASolution3() {
         int[][] solvableLevel = new int[][] {   {0, 0, 1, 100},
@@ -239,6 +249,28 @@ public class GeneratorTest {
         ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, solvableGrid,false);
 
         assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(expectedGrid, foundSolutions.get(0)));
+    }
+
+    @Test
+    public void testFindAllSolutionsOptimization() {
+        int[][] solvableLevel = new int[][] {   {106, 0, 300},
+                                                {  0, 0, 0},
+                                                { -1, 1, -1},
+                                                {208, 0, 1} };
+
+        Generator gen = new Generator(3, 4, solvableLevel, 2);
+        int[] sources = {106, 208};
+        int[] goals = {300};
+        int[] sourcesPositions = {0, 9};
+        int[] goalPosition = {2};
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, solvableLevel, false);
+
+        //assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, foundSolutions.get(0));
     }
 
     @Test

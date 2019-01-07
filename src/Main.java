@@ -4,10 +4,10 @@ public class Main {
         int[] sourcesPositions = {0, 15};
         int[] goalPosition = {3};
 
-        int[] sources = {100, 200, 400};
-        int[] goals = {500, 200};
+        int[] sources = {100, 200}; //400
+        int[] goals = {300}; //500, 200
 
-        Generator generator = new Generator(5, 4, 5, 4, 4, sources, goals);
+        Generator generator = new Generator(3, 3, 2, 2, 2, sources, goals);
         generator.generateRandomLevels(true);
 
         /* int[][] solvableLevel = new int[][] {{102, 1, -1, 300, 0},

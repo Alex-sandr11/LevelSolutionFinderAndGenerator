@@ -2,6 +2,10 @@
 import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * Version 0.1.8 (Internal works with integers (origin were String), solution finding (up to 6 mirrors), random level generation)
+ */
+
 //TODO: Erweitern um die Ausschreiben aller generierten Levels mit der Lösung in JSON
 public class Generator {
 
@@ -84,7 +88,7 @@ public class Generator {
 
     public int[][] generateEmptyLevel() {
 
-        fillTheEmptyGrid();
+        //fillTheEmptyGrid(); //We don't need it anymore since we work with integers
 
         for (int i = 0; i < holes; i++) {
             int position = randomFreePlace();
@@ -107,8 +111,7 @@ public class Generator {
             int sourceData = sources[i];
             int sourcePosition = sourcesPositions[i];
             ArrayList<Integer> directions = findPossibleLaserDirections(sourcePosition);
-            Random rand = new Random();
-            int sourceDirection = directions.get(rand.nextInt(directions.size())); //a random direction from all possible ones
+            int sourceDirection = directions.get(new Random().nextInt(directions.size())); //a random direction from all possible ones
             int sourceWithADirection = buildASource(sourceData, sourceDirection);
             sources[i] = sourceWithADirection;
             placeElementAtPosition(sourcePosition, sourceWithADirection);
@@ -116,6 +119,7 @@ public class Generator {
         //System.out.println("This level was generated: " + "\n" + gridToString(this.grid));
     }
 
+    /** We don't need this method anymore since we work with integers, where 0 is default value **/
     private void fillTheEmptyGrid() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -177,7 +181,8 @@ public class Generator {
         } */
 
         //TODO: OPTIONAL Erweitern um die AdditiveBlöcke
-    public ArrayList<int[][]> findAllSolutionsIterativ(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
+        /** This is the original working method! **/
+    public ArrayList<int[][]> findAllSolutionsIterativ2(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
         //At first we check whether this level isn't already solved without any playable elements
             if (allSourcesReachedTheGoal(grid)) {
                 ArrayList<int[][]> gridIsAlreadySolved = new ArrayList<int[][]>();
@@ -267,6 +272,84 @@ public class Generator {
             return uniqueSolutions;
         }
 
+    public ArrayList<int[][]> findAllSolutionsIterativ(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
+        System.out.println(gridToString(grid));
+        //At first we check whether this level isn't already solved without any playable elements
+        if (allSourcesReachedTheGoal(grid)) {
+            ArrayList<int[][]> gridIsAlreadySolved = new ArrayList<int[][]>();
+
+            //System.out.println("Grid is already solved!");
+            //System.out.println(gridToString(grid));
+            return gridIsAlreadySolved;
+        }
+
+        ArrayList<int[][]> allSolutions = new ArrayList<>();
+
+        ArrayList<int[][]> allPossibleCombinations = new ArrayList<>();
+        allPossibleCombinations.add(grid);
+
+        for (int[][] grid1 : allPossibleCombinations) {
+            System.out.println(gridToString(grid1));
+        }
+
+        int lastIndex = 0;
+        for (int i = 0; i < mirrors; i++) {
+            if (i > 0 && mirrors != 1) { //we need only combinations where ALL mirrors are placed, so we delete the other ones
+                lastIndex = allPossibleCombinations.size() - 1;
+            }
+
+            ArrayList<int[][]> newCombinations = new ArrayList<>();
+            ArrayList<int[][]> combinationsToAdd = new ArrayList<>();
+            for (int combination = 0; combination < allPossibleCombinations.size(); combination++) {
+                newCombinations.addAll(allPositionsForAnElement(57, allPossibleCombinations.get(combination)));
+                newCombinations.addAll(allPositionsForAnElement(59, allPossibleCombinations.get(combination)));
+            }
+            for (int[][] combination : newCombinations) {
+                if (allSourcesReachedTheGoal(combination)) { //if there is a solution, we don't need to proceed on this one
+                    allSolutions.add(combination);
+                } else {
+                    combinationsToAdd.add(combination);
+                }
+            }
+            //If we are not in last iteration and already have found some solutions
+            if (i < mirrors-1 && allSolutions.size() > 0) {
+                if (exactNumberOfPlayableElements) {
+                    ArrayList<int[][]> emptyList = new ArrayList<>();
+                    return emptyList;
+                } else {
+                    break;
+                }
+
+            }
+            allPossibleCombinations.subList(0, lastIndex+1).clear(); //we remove the old ones (or the empty grid at index 0)
+
+            allPossibleCombinations.addAll(combinationsToAdd);
+
+            for (int[][] grid1 : allPossibleCombinations) {
+                System.out.println(gridToString(grid1));
+            }
+
+            //System.out.println("Mirrors: " + (i+1));
+            allPossibleCombinations = removeRepeatingCombinations(allPossibleCombinations);
+            //System.out.println("After removing all repeating combinations: " + allPossibleCombinations.size());
+
+            for (int[][] grid1 : allPossibleCombinations) {
+                System.out.println(gridToString(grid1));
+            }
+        }
+
+        ArrayList<int[][]> uniqueSolutions = removeRepeatingCombinations(allSolutions);
+
+        if (uniqueSolutions.size() > 1) {
+            System.out.println("Found a level with more than one solution. Solutions: ");
+            for (int j = 0; j < uniqueSolutions.size(); j++) {
+                System.out.println(gridToString(uniqueSolutions.get(j)) + "\n");
+            }
+        }
+
+        return uniqueSolutions;
+    }
+
     public ArrayList<int[][]> allPositionsForAnElement (int element, int[][]grid){
         ArrayList<int[][]> allPositions = new ArrayList<>();
         ArrayList<Integer> emptyPlaces = findAllEmptyCells(grid);
@@ -296,11 +379,10 @@ public class Generator {
    } */
 
 
-   //TODO intern mit Integern arbeiten? Soll schneller sein als mit Strings
    public ArrayList<int[][]> generateAllLevelsWithOneSolutionIterativ() {
        ArrayList<int[][]> allLevels = new ArrayList<>();
        ArrayList<int[][]> allUniqueLevels = new ArrayList<>();
-       fillTheEmptyGrid();
+       //fillTheEmptyGrid();
        allLevels.add(this.grid); // we add an empty grid at first
 
        int lastIndex = 0;
@@ -729,25 +811,34 @@ public class Generator {
     }
 
     private ArrayList<Integer> findPossibleLaserDirections(int sourcePosition) {
-        HashSet<Integer> possibleDirections = new HashSet<>(); //default boolean value is false
+        HashSet<Integer> possibleDirections = new HashSet<>();
 
         int[] columnPositions = findTheColumnPositions(sourcePosition);
         for(int i = 0; i < columnPositions.length; i++) {
             if (columnPositions[i] < sourcePosition) {
-                possibleDirections.add(8);
+                if (getElementAtPosition(sourcePosition-gridWidth) != 1) { //added to check whether there is no wall in the cell above
+                    possibleDirections.add(8);
+                }
             }
             else if (columnPositions[i] > sourcePosition){
-                possibleDirections.add(2);
+                if (getElementAtPosition(sourcePosition+gridWidth) != 1) { //added to check whether there is no wall in the cell below
+                    possibleDirections.add(2);
+                }
             }
         }
 
         int[] rowPositions = findTheRowPositions(sourcePosition);
         for(int i = 0; i < rowPositions.length; i++) {
             if (rowPositions[i] < sourcePosition) {
-                possibleDirections.add(4);
+                if (getElementAtPosition(sourcePosition-1) != 1) { //added to check whether there is no wall in the cell on the left
+                    possibleDirections.add(4);
+                }
+
             }
             else if (rowPositions[i] > sourcePosition){
-                possibleDirections.add(6);
+                if (getElementAtPosition(sourcePosition+1) != 1) { //added to check whether there is no wall in the cell on the right
+                    possibleDirections.add(6);
+                }
             }
         }
         ArrayList<Integer> endList = new ArrayList<>(possibleDirections);
@@ -843,10 +934,11 @@ public class Generator {
     private int[] findTheColumnPositions(int position) {
         int[] column = new int[gridHeight];
 
-        int numberInRow = position;
-        while (numberInRow >= gridWidth) {
+        int numberInRow = position % gridWidth; //das gleiche wie unten, nur in einer Zeile
+      /* int numberInRow = position;
+         while (numberInRow >= gridWidth) {
             numberInRow -= gridWidth;
-        }
+        } */
 
         for (int i = 0; i < gridHeight; i++) {
             column[i] = gridWidth * i + numberInRow;
