@@ -80,6 +80,20 @@ public class GeneratorTest {
     }
 
     @Test
+    public void endLaserPosition7() {
+
+        int[][] grid = new int[][] {   {102, 1, -1, 300, 59},
+                                {0, 0, -1, 57, 0},
+                                {202, 0, 1, 308, 0},
+                                {206, 0, -1, -1, 57} };
+
+        Generator gen = new Generator(5, 4, grid);
+        int calculatedEndLaserPosition = gen.endLaserPosition(0, 2);
+
+        assertEquals("The calculated laser end position doesn't match the expected one", 10, calculatedEndLaserPosition);
+    }
+
+    @Test
     public void getSourceDirection() {
         int source1 = 104;
         int source2 = 202;
@@ -112,9 +126,56 @@ public class GeneratorTest {
         assertEquals("The found element at given position doesn't match the expected one", Integer.MIN_VALUE, generator.getElementAtPosition(20));
     }
 
+    /** Took 16,5 s **/
+    @Test
+    public void findAllSolutions5x5Sources4Mirrors6() {
+        int[][] notAsolvableLevel = new int[][] {       {  1,  -1, 206, 900, 300},
+                                                        { -1, 406,   0,   1,  -1},
+                                                        {  0,   1,   0,  -1,   0},
+                                                        {  0,   0,  -1, 506,   0},
+                                                        {106,   0,   0,   0,   0}};
+
+        int[] sources = {106, 206, 406, 506};
+        int[] goals = {300, 900};
+        int[] sourcesPositions = {20, 2, 6, 18};
+        int[] goalPosition = {4, 3};
+        Generator gen = new Generator(5, 5, notAsolvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        //ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel, true);
+
+        ArrayList<Integer> placesToSet = gen.findAllEmptyCells(notAsolvableLevel);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(notAsolvableLevel, 6, placesToSet, true);
+
+        assertEquals("Amount of found solutions didn't match the expected one", 0, foundSolutions.size());
+
+    }
+
+    @Test
+    public void allSourcesReachedTheGoals() {
+        int[][] notAsolvableLevel = new int[][] {       {  1,  -1, 206, 900, 300},
+                { -1, 406,  59,   1,  -1},
+                {  0,   1,   59,  -1,   59},
+                {  106,   0,  -1, 506,   59}};
+
+        int[] sources = {106, 206, 406, 506};
+        int[] goals = {300, 900};
+        int[] sourcesPositions = {15, 2, 6, 18};
+        int[] goalPosition = {4, 3};
+        Generator gen = new Generator(5, 4, notAsolvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        assertFalse(gen.allSourcesReachedTheGoal(notAsolvableLevel));
+    }
 
 
-    /** Takes more than 20 Minutes and still doesn't solve the level! **/ /** Solved in 18m 25s **/ /** Best time 18m 25s **/
+    /** Takes more than 20 Minutes and still doesn't solve the level! **/ /** Solved in 18m 25s **/ /** Best time 19s **/
      @Test
     public void findAllSolutionWith6Mirrors() {
         int[][] solvableLevel = new int[][] {       {0, 0, 0, 1, -1},
@@ -149,7 +210,7 @@ public class GeneratorTest {
         //ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel, true);
 
          ArrayList<Integer> placesToSet = gen.findAllEmptyCells(solvableLevel);
-         ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(solvableLevel, 6, placesToSet);
+         ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(solvableLevel, 6, placesToSet, false);
 
          foundSolutions = gen.removeRepeatingCombinations(foundSolutions); //Why should I do this?
 
@@ -158,7 +219,7 @@ public class GeneratorTest {
              System.out.println(gen.gridToString(foundSolutions.get(i)));
          }
 
-        assertEquals("The found solution for the given grid doesn't match the expected one", foundSolutions, solutions);
+        assertEquals("The found solution for the given grid doesn't match the expected one", solutions, foundSolutions);
     }
 
     @Test
@@ -209,7 +270,7 @@ public class GeneratorTest {
 
        //ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(5, solvableLevel, false);
        ArrayList<Integer> placesToSet = gen.findAllEmptyCells(solvableLevel);
-       ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(solvableLevel, 5, placesToSet);
+       ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(solvableLevel, 5, placesToSet, true);
 
        for (int i = 0; i < foundSolutions.size(); i++) {
            System.out.println("Solution " + i + "\n");
@@ -247,6 +308,34 @@ public class GeneratorTest {
     }
 
     @Test
+    public void findAllSolutionsRecursiv1() {
+        int[][] notASolvableLevel = new int[][]{{-1, 204, 1, 400, 0},
+                                                {1, 300, -1, 102, 0},
+                                                {1, 0, 0, -1, 0},
+                                                {-1, 0, 404, 1, -1}};
+
+        int[] sources = {102, 204, 404};
+        int[] goals = {300, 400};
+        int[] sourcesPositions = {8, 1, 17};
+        int[] goalPosition = {6, 3};
+        Generator gen = new Generator(5, 4, notASolvableLevel, 6);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        //ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, solvableGrid,false);
+        ArrayList<Integer> emptyCells = gen.findAllEmptyCells(notASolvableLevel);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(notASolvableLevel, 2, emptyCells, false);
+
+        for (int i = 0; i < foundSolutions.size(); i++) {
+            System.out.println("Solution " + i + "\n");
+            System.out.println(gen.gridToString(foundSolutions.get(i)));
+        }
+    }
+
+    @Test
     public void findASolution1() {
         int[][] expectedGrid = new int[][] {    {1, 1, 102},
                                                 {-1, 1, -1},
@@ -271,7 +360,7 @@ public class GeneratorTest {
         //ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, solvableGrid,false);
         ArrayList<Integer> emptyCells = gen.findAllEmptyCells(solvableGrid);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(solvableGrid, 2, emptyCells);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(solvableGrid, 2, emptyCells, true);
 
         for (int i = 0; i < foundSolutions.size(); i++) {
             System.out.println("Solution " + i + "\n");
