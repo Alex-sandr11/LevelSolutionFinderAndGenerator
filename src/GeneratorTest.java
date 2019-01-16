@@ -214,12 +214,13 @@ public class GeneratorTest {
 
          foundSolutions = gen.removeRepeatingCombinations(foundSolutions); //Why should I do this?
 
-         for (int i = 0; i < foundSolutions.size(); i++) {
+         /* for (int i = 0; i < foundSolutions.size(); i++) {
              System.out.println("Solution " + i + "\n");
              System.out.println(gen.gridToString(foundSolutions.get(i)));
-         }
+         } */
 
-        assertEquals("The found solution for the given grid doesn't match the expected one", solutions, foundSolutions);
+        assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution1, foundSolutions.get(0)));
+         assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution2, foundSolutions.get(1)));
     }
 
     @Test

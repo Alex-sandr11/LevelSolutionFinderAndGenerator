@@ -6,10 +6,10 @@ public class Main {
     public static void main(String[] args) {
 
 
-        int[] sources = {100, 200, 400, 500};
-        int[] goals = {300, 900};
+        int[] sources = {100, 200};
+        int[] goals = {300};
 
-        Generator generator = new Generator(5, 5, 7, 5, 6, sources, goals);
+        Generator generator = new Generator(4, 4, 5, 2, 5, sources, goals);
         //Generator generator = new Generator(4, 4, 3, 3, 4, sources, goals);
         generator.generateRandomLevelsRecursiv(true);
 
