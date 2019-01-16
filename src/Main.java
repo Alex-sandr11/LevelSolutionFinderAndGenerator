@@ -4,15 +4,14 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        //int[] sourcesPositions = {0, 15};
-        //int[] goalPosition = {3};
 
-        int[] sources = {100, 200}; //400
-        int[] goals = {300}; //500, 200
 
-        Generator generator = new Generator(4, 4, 3, 2, 5, sources, goals);
-        //Generator generator = new Generator(4, 4, 4, 3, 5, sources, goals);
-        generator.generateRandomLevelsRecursiv(false);
+        int[] sources = {100, 200, 400, 500};
+        int[] goals = {300, 900};
+
+        Generator generator = new Generator(5, 5, 7, 5, 6, sources, goals);
+        //Generator generator = new Generator(4, 4, 3, 3, 4, sources, goals);
+        generator.generateRandomLevelsRecursiv(true);
 
         //generator.generateRandomLevelsIterativ(true);
 
@@ -22,6 +21,9 @@ public class Main {
                                                 {206, 0, -1, -1, 0}};
 
         Generator generator = new Generator(5,4, solvableLevel);
+
+        //int[] sourcesPositions = {0, 15};
+        //int[] goalPosition = {3};
 
         generator.setSources(sources);
         generator.setGoals(goals);

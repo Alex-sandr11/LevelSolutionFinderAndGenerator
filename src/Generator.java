@@ -1,4 +1,6 @@
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -87,7 +89,7 @@ public class Generator {
 
     public int[][] generateEmptyLevel() {
 
-        //fillTheEmptyGrid(); //We don't need it anymore since we work with integers
+        fillTheEmptyGrid(); //We don't need it anymore since we work with integers //TODO: Why do we need this?
 
         for (int i = 0; i < holes; i++) {
             int position = randomFreePlace();
@@ -153,36 +155,7 @@ public class Generator {
 
     /** Further methods are used for filling the needed fields of a Generator if the prepared grid was given **/
 
-      /*  public String[][] addMirror(int mirrors, int index, String[][] lastGrid, ArrayList<Integer> emptyCells) {
-            if (mirrors == 0) {
-                System.out.println("Mirrors == 0. Returned the last grid: " + "\n" + gridToString(lastGrid) + "\n");
-                return lastGrid;
-            }
-            //ArrayList<Integer> emptyCells = findAllEmptyCells(lastGrid);
-            else if (index >= emptyCells.size() - 1) {
-                System.out.println("No more empty cells. Returned the last grid: " + "\n" + gridToString(lastGrid) + "\n");
-                return lastGrid;
-            } else {
-                String[][] currentGrid = copyOf2DArray(this.grid);
-                placeElementAtPosition(emptyCells.get(index), "M7", lastGrid);
-                if (!allSourcesReachedTheGoal(currentGrid)) {
-                    for (int i = mirrors; i > 1; i--) {
-                    System.out.println("The goal is not reached yet, we go deeper with" + "\n" +
-                            gridToString(currentGrid) + "\n");
-                        return addMirror(mirrors - 1, index + 1, currentGrid, emptyCells); //lastGrid?
-                    }
-                } else {
-                    System.out.println("All sources reached the goal. Returned the current grid: " + "\n" + gridToString(currentGrid));
-                    return currentGrid;
-                }
-            }
-
-            System.out.println("Why do I get this???");
-            return lastGrid;
-        } */
-
-        /** This is the original working method! **/
-    public ArrayList<int[][]> findAllSolutionsIterativ2(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
+    public ArrayList<int[][]> findAllSolutionsIterativ(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
         //At first we check whether this level isn't already solved without any playable elements
             if (allSourcesReachedTheGoal(grid)) {
                 ArrayList<int[][]> gridIsAlreadySolved = new ArrayList<int[][]>();
@@ -232,32 +205,7 @@ public class Generator {
                 //System.out.println("After removing all repeating combinations: " + allPossibleCombinations.size());
             }
 
-            /* for (int[][] combination : allPossibleCombinations) {
-                if (allSourcesReachedTheGoal(combination)) {
-                    allSolutions.add(combination);
-                }
-            } */
-
-            //JUST FOR TESTING! REMOVE WHEN READY
-             /* if (allSolutions.size() > 0) {
-                 for (int[][] solution : allSolutions) {
-                     System.out.println(gridToString(solution));
-                 }
-                for (int[][] combination : allPossibleCombinations) {
-                    if (allSourcesReachedTheGoal(combination)) {
-                        allSolutions.add(combination);
-                    }
-                }
-            } */
-
             ArrayList<int[][]> uniqueSolutions = removeRepeatingCombinations(allSolutions);
-           /* for (int i = 0; i < allSolutions.size(); i++) {
-                for(int j = i+1; j < allSolutions.size(); j++) {
-                    if (arrayIsEqual(allSolutions.get(i), allSolutions.get(j))) {
-                        uniqueSolutions.remove(allSolutions.get(i));
-                    }
-                }
-            } */
 
             //System.out.println("All combinations: " + (allPossibleCombinations.size()-1));
             //System.out.println("Solutions found: " + allSolutions.size());
@@ -271,79 +219,6 @@ public class Generator {
 
             return uniqueSolutions;
         }
-
-    public ArrayList<int[][]> findAllSolutionsIterativ(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
-        System.out.println(gridToString(grid));
-        //At first we check whether this level isn't already solved without any playable elements
-        if (allSourcesReachedTheGoal(grid)) {
-            ArrayList<int[][]> gridIsAlreadySolved = new ArrayList<int[][]>();
-
-            //System.out.println("Grid is already solved!");
-            //System.out.println(gridToString(grid));
-            return gridIsAlreadySolved;
-        }
-
-        ArrayList<int[][]> allSolutions = new ArrayList<>();
-
-        ArrayList<int[][]> allPossibleCombinations = new ArrayList<>();
-        allPossibleCombinations.add(grid);
-
-
-        int lastIndex = 0;
-        for (int i = 0; i < mirrors; i++) {
-            if (i > 0 && mirrors != 1) { //we need only combinations where ALL mirrors are placed, so we delete the other ones
-                lastIndex = allPossibleCombinations.size() - 1;
-            }
-
-            ArrayList<int[][]> newCombinations = new ArrayList<>();
-            ArrayList<int[][]> combinationsToAdd = new ArrayList<>();
-            for (int combination = 0; combination < allPossibleCombinations.size(); combination++) {
-                newCombinations.addAll(allPositionsForAnElement(57, allPossibleCombinations.get(combination)));
-                newCombinations.addAll(allPositionsForAnElement(59, allPossibleCombinations.get(combination)));
-            }
-            for (int[][] combination : newCombinations) {
-                if (allSourcesReachedTheGoal(combination)) { //if there is a solution, we don't need to proceed on this one
-                    allSolutions.add(combination);
-                } else {
-                    combinationsToAdd.add(combination);
-                }
-            }
-            //If we are not in last iteration and already have found some solutions
-            if (i < mirrors-1 && allSolutions.size() > 0) {
-                if (exactNumberOfPlayableElements) {
-                    ArrayList<int[][]> emptyList = new ArrayList<>();
-                    return emptyList;
-                } else {
-                    break;
-                }
-
-            }
-            allPossibleCombinations.subList(0, lastIndex+1).clear(); //we remove the old ones (or the empty grid at index 0)
-
-            allPossibleCombinations.addAll(combinationsToAdd);
-
-            //System.out.println("Mirrors: " + (i+1));
-            allPossibleCombinations = removeRepeatingCombinations(allPossibleCombinations);
-            //System.out.println("After removing all repeating combinations: " + allPossibleCombinations.size());
-
-            for (int[][] grid1 : allPossibleCombinations) {
-                System.out.println(gridToString(grid1));
-            }
-        }
-
-        ArrayList<int[][]> uniqueSolutions = removeRepeatingCombinations(allSolutions);
-
-        if (uniqueSolutions.size() > 1) {
-            System.out.println("Found a level with more than one solution. Solutions: ");
-            for (int j = 0; j < uniqueSolutions.size(); j++) {
-                System.out.println(gridToString(uniqueSolutions.get(j)) + "\n");
-            }
-        }
-
-        return uniqueSolutions;
-    }
-
-
 
     public ArrayList<int[][]> allPositionsForAnElement (int element, int[][]grid){
         ArrayList<int[][]> allPositions = new ArrayList<>();
@@ -488,17 +363,20 @@ public class Generator {
                 if (allSolutions.size() == 1) {
                     if (!arrayIsEqual(allSolutions.get(0), this.grid)) {
                         //for testing purposes
-                            System.out.println("Found a level no." + levelCount + " with an unique solution: ");
-                            System.out.println(gridToString(allSolutions.get(0)));
+                            //System.out.println("Found a level no." + levelCount + " with an unique solution: ");
+                            writeGrid(gridForJSON(allSolutions.get(0), levelCount));
                         //end
                     }
                 } else if (allSolutions.size() == 0) {
                     //System.out.println("No solutions to the level was found");
                 } else {
-                    System.out.println("This level had more than one solution: " + allSolutions.size());
-                 for (int[][] solution : allSolutions) {
-                    System.out.println(gridToString(solution));
-                }
+                    //System.out.println("This level no." + levelCount + " had more than one solution: " + allSolutions.size());
+                    if (allSolutions.size() <= 3) {
+                        System.out.println("This level no." + levelCount + " had more than one solution: " + allSolutions.size());
+                        for (int[][] solution : allSolutions) {
+                            System.out.println(gridToString(solution));
+                        }
+                    }
                 }
             } else {
                 //System.out.println("This is not a solvable level");
@@ -506,6 +384,22 @@ public class Generator {
 
             //System.out.println("Level N." + levelCount);
             levelCount++;
+        }
+
+    }
+
+    private void writeGrid(String grid) {
+
+        FileWriter writer;
+        try {
+            writer = new FileWriter("Unique levels.json", true);
+
+            writer.write(grid);
+            writer.close();
+
+        } catch (IOException e) {
+            e = new IOException("Something wrong with File Writer");
+            e.printStackTrace();
         }
 
     }
@@ -894,6 +788,25 @@ public class Generator {
         return result;
     }
 
+    public String gridForJSON(int[][] grid, int levelNumber) {
+        String result = '"' + "level" + levelNumber + '"' + ':' + " [" + "\n";
+        for (int i = 0; i < grid.length; i++) {
+            result += '"';
+            for (int j = 0; j < grid[i].length; j++) {
+                result += grid[i][j] + ",";
+                if (j == grid[i].length-1) {
+                    result = result.substring(0, result.length()-1); //the endIndex excluded, so we remove last comma
+                }
+            }
+            result += '"' + ",";
+            if (i == grid.length-1) {
+                result = result.substring(0, result.length()-1); //the endIndex excluded, so we remove last comma
+            }
+            result += "\n";
+        }
+        result += "]," + "\n";
+        return result;
+    }
 
     private int[] findTheColumn(int position) {
         int[] column = new int[gridHeight];
