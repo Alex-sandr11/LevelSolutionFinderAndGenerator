@@ -363,7 +363,7 @@ public class Generator {
                 if (allSolutions.size() == 1) {
                     if (!arrayIsEqual(allSolutions.get(0), this.grid)) {
                         //for testing purposes
-                            //System.out.println("Found a level no." + levelCount + " with an unique solution: ");
+                            System.out.println("Found a level no." + levelCount + " with an unique solution: ");
                             writeGrid(gridForJSON(allSolutions.get(0), levelCount, false));
                         //end
                     }
@@ -372,8 +372,8 @@ public class Generator {
                 } else {
                     //System.out.println("This level no." + levelCount + " had more than one solution: " + allSolutions.size());
                     if (allSolutions.size() <= 3) {
-                        /* System.out.println("This level no." + levelCount + " had more than one solution: " + allSolutions.size());
-                         for (int[][] solution : allSolutions) {
+                        System.out.println("This level no." + levelCount + " had more than one solution: " + allSolutions.size());
+                         /* for (int[][] solution : allSolutions) {
                             System.out.println(gridToString(solution));
                         } */
                         writeGrid(gridForJSON(allSolutions.get(0), levelCount, false));

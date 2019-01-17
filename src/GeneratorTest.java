@@ -223,6 +223,42 @@ public class GeneratorTest {
          assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution2, foundSolutions.get(1)));
     }
 
+    /** Takes 5 min 30 s **/
+    @Test
+    public void findAllSolutions7Mirrors() {
+        int[][] solvableLevel = new int[][] {       {100, 200, 1, 1,   -1},
+                                                    {  0,   0, -1, -1,   0},
+                                                    {  0,   0, 0, 1,   -1},
+                                                    {  -1,   0, -1, 0,   0},
+                                                    {208,   0, 0, 0, 104}};
+
+        int[] sources = {104, 208};
+        int[] goals = {100,200};
+        int[] sourcesPositions = {24, 20};
+        int[] goalPosition = {0, 1};
+        Generator gen = new Generator(5, 5, solvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        //ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel, true);
+
+        ArrayList<Integer> placesToSet = gen.findAllEmptyCells(solvableLevel);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsRecursiv(solvableLevel, 7, placesToSet, false);
+
+        foundSolutions = gen.removeRepeatingCombinations(foundSolutions); //Why should I do this?
+
+        //There are two unique solutions
+          for (int i = 0; i < foundSolutions.size(); i++) {
+             System.out.println("Solution " + i + "\n");
+             System.out.println(gen.gridToString(foundSolutions.get(i)));
+         }
+
+        //assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution1, foundSolutions.get(0)));
+        //assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution2, foundSolutions.get(1)));
+    }
+
     @Test
     public void testFindASolution4() {
         int[][] solvableLevel = new int[][] {{0, 0, 300, 0, 204},

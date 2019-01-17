@@ -4,6 +4,7 @@
     <list default="true" id="fb47e16f-a506-4f30-a8d8-98e855de331f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AutomaticLevelGenerator/Generator.class" afterPath="$PROJECT_DIR$/out/production/AutomaticLevelGenerator/Generator.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AutomaticLevelGenerator/GeneratorTest.class" afterPath="$PROJECT_DIR$/out/production/AutomaticLevelGenerator/GeneratorTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AutomaticLevelGenerator/Main.class" afterPath="$PROJECT_DIR$/out/production/AutomaticLevelGenerator/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Generator.java" afterPath="$PROJECT_DIR$/src/Generator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GeneratorTest.java" afterPath="$PROJECT_DIR$/src/GeneratorTest.java" />
@@ -25,8 +26,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="11" column="54" lean-forward="false" selection-start-line="11" selection-start-column="54" selection-end-line="11" selection-end-column="54" />
+            <state relative-caret-position="168">
+              <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -37,8 +38,8 @@
       <file leaf-file-name="Generator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Generator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="378" column="87" lean-forward="false" selection-start-line="378" selection-start-column="87" selection-end-line="378" selection-end-column="87" />
+            <state relative-caret-position="651">
+              <caret line="378" column="87" lean-forward="true" selection-start-line="378" selection-start-column="87" selection-end-line="378" selection-end-column="87" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#findAllSolutionsIterativ#0;class#Generator#0" expanded="false" />
@@ -51,11 +52,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Unique levels1.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Unique levels1.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-461">
+              <caret line="0" column="1" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="GeneratorTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GeneratorTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="904">
-              <caret line="219" column="13" lean-forward="false" selection-start-line="219" selection-start-column="13" selection-end-line="219" selection-end-column="13" />
+            <state relative-caret-position="294">
+              <caret line="235" column="32" lean-forward="true" selection-start-line="235" selection-start-column="32" selection-end-line="235" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -115,10 +126,11 @@
         <option value="$PROJECT_DIR$/src/tests/GeneratorTest.java" />
         <option value="$PROJECT_DIR$/src/Superklasse.java" />
         <option value="$PROJECT_DIR$/src/Subklasse.java" />
-        <option value="$PROJECT_DIR$/src/GeneratorTest.java" />
         <option value="$PROJECT_DIR$/src/Generator.java" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/Unique levels.json" />
+        <option value="$PROJECT_DIR$/src/GeneratorTest.java" />
+        <option value="$PROJECT_DIR$/Unique levels1.json" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
       </list>
     </option>
   </component>
@@ -128,7 +140,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="18" />
     <option name="width" value="1774" />
     <option name="height" value="995" />
@@ -165,10 +177,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -199,7 +211,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.GeneratorTest.findAllSolutions7Mirrors">
     <configuration name="GeneratorTest.allSourcesReachedTheGoals" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="AutomaticLevelGenerator" />
@@ -260,14 +272,14 @@
       <envs />
       <patterns />
     </configuration>
-    <configuration name="GeneratorTest.findAllSolutions5x5Sources4Mirrors6" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GeneratorTest.findAllSolutions7Mirrors" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="AutomaticLevelGenerator" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="GeneratorTest" />
-      <option name="METHOD_NAME" value="findAllSolutions5x5Sources4Mirrors6" />
+      <option name="METHOD_NAME" value="findAllSolutions7Mirrors" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
@@ -311,18 +323,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.GeneratorTest.findAllSolutions5x5Sources4Mirrors6" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.GeneratorTest.allSourcesReachedTheGoals" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.GeneratorTest.endLaserPosition7" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.GeneratorTest.findAllSolutionWith6Mirrors" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.GeneratorTest.allSourcesReachedTheGoals" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.GeneratorTest.endLaserPosition7" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.GeneratorTest.findAllSolutionWith6Mirrors" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.GeneratorTest.findAllSolutions7Mirrors" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.GeneratorTest.findAllSolutionWith6Mirrors" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.GeneratorTest.endLaserPosition7" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.GeneratorTest.allSourcesReachedTheGoals" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.GeneratorTest.findAllSolutions5x5Sources4Mirrors6" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.GeneratorTest.findAllSolutions7Mirrors" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.GeneratorTest.findAllSolutionWith6Mirrors" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.GeneratorTest.endLaserPosition7" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.GeneratorTest.allSourcesReachedTheGoals" />
       </list>
     </recent_temporary>
   </component>
@@ -343,12 +355,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GeneratorTest_findAllSolutionWith6Mirrors - 2019.01.14 at 19h 49m 46s.xml">
-      <configuration name="GeneratorTest.findAllSolutionWith6Mirrors" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GeneratorTest_findAllSolutionWith6Mirrors - 2019.01.14 at 19h 52m 33s.xml">
-      <configuration name="GeneratorTest.findAllSolutionWith6Mirrors" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="GeneratorTest_findAllSolutionWith6Mirrors - 2019.01.14 at 19h 53m 27s.xml">
       <configuration name="GeneratorTest.findAllSolutionWith6Mirrors" configurationId="JUnit" />
     </history-entry>
@@ -373,6 +379,12 @@
     <history-entry file="GeneratorTest_findAllSolutionWith6Mirrors - 2019.01.16 at 14h 00m 41s.xml">
       <configuration name="GeneratorTest.findAllSolutionWith6Mirrors" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="GeneratorTest_findAllSolutions7Mirrors - 2019.01.17 at 13h 28m 54s.xml">
+      <configuration name="GeneratorTest.findAllSolutions7Mirrors" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GeneratorTest_findAllSolutions7Mirrors - 2019.01.17 at 13h 55m 17s.xml">
+      <configuration name="GeneratorTest.findAllSolutions7Mirrors" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -384,25 +396,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="7" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3405467" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32915717" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41230068" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41230068" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Sequence" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32915717" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16433942" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32915717" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16863587" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -414,8 +424,10 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32915717" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32915717" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -426,19 +438,19 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GeneratorTest.java</url>
-          <line>493</line>
+          <line>529</line>
           <properties />
           <option name="timeStamp" value="80" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GeneratorTest.java</url>
-          <line>330</line>
+          <line>366</line>
           <properties />
           <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GeneratorTest.java</url>
-          <line>332</line>
+          <line>368</line>
           <properties />
           <option name="timeStamp" value="120" />
         </line-breakpoint>
@@ -457,21 +469,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Generator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6657">
-          <caret line="317" column="53" lean-forward="true" selection-start-line="317" selection-start-column="53" selection-end-line="317" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#findAllSolutionsIterativ#0;class#Generator#0" expanded="false" />
-            <element signature="method#allPositionsForAnElement#0;class#Generator#0" expanded="false" />
-            <element signature="method#getStopPositionOnLeft#0;class#Generator#0" expanded="false" />
-            <element signature="method#getStopPositionOnRight#0;class#Generator#0" expanded="false" />
-            <element signature="method#findTheColumn#0;class#Generator#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GeneratorTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4746">
@@ -898,18 +895,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GeneratorTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="904">
-          <caret line="219" column="13" lean-forward="false" selection-start-line="219" selection-start-column="13" selection-end-line="219" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Unique levels.json" />
     <entry file="file://$PROJECT_DIR$/src/Generator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="378" column="87" lean-forward="false" selection-start-line="378" selection-start-column="87" selection-end-line="378" selection-end-column="87" />
+        <state relative-caret-position="651">
+          <caret line="378" column="87" lean-forward="true" selection-start-line="378" selection-start-column="87" selection-end-line="378" selection-end-column="87" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#findAllSolutionsIterativ#0;class#Generator#0" expanded="false" />
@@ -921,18 +911,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Unique levels.json">
+    <entry file="file://$PROJECT_DIR$/Unique levels1.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="53" column="16" lean-forward="true" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
+        <state relative-caret-position="-461">
+          <caret line="0" column="1" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GeneratorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="235" column="32" lean-forward="true" selection-start-line="235" selection-start-column="32" selection-end-line="235" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="11" column="54" lean-forward="false" selection-start-line="11" selection-start-column="54" selection-end-line="11" selection-end-column="54" />
+        <state relative-caret-position="168">
+          <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
