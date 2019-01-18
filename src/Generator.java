@@ -37,7 +37,7 @@ public class Generator {
 
     //the empty grid
     private int[][] grid;
-    private int maxElement; //N-th
+    private int maxElements; //maxElements-1 is the last N-th element
 
     public Generator() {
         //default constructor for testing purposes
@@ -60,6 +60,7 @@ public class Generator {
      * NB! this.grid = new String[gridHeight][gridWidth];
      */
     public Generator(int gridWidth, int gridHeight, int holes, int walls, int mirrors, int additiveBlocks, int[] sources, int[] goals) {
+        this.maxElements = gridHeight * gridWidth;
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.holes = holes;
@@ -68,12 +69,18 @@ public class Generator {
         this.additiveBlocks = additiveBlocks;
         this.sources = sources;
         this.goals = goals;
-        this.maxElement = gridHeight * gridWidth;
         this.grid = new int[gridHeight][gridWidth];
     }
 
     //for generating new levels
     public Generator(int gridWidth, int gridHeight, int holes, int walls, int mirrors, int[] sources, int[] goals) {
+        int elementsToPlace = (holes + walls + mirrors + sources.length + goals.length);
+        this.maxElements = gridHeight * gridWidth;
+        if (elementsToPlace > maxElements) {
+            System.out.println("There are not enough cells to place all elements!");
+            System.exit(1);
+        }
+
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.holes = holes;
@@ -81,7 +88,7 @@ public class Generator {
         this.mirrors = mirrors;
         this.sources = sources;
         this.goals = goals;
-        this.maxElement = gridHeight * gridWidth;
+
         this.grid = new int[gridHeight][gridWidth];
     }
 
@@ -246,6 +253,7 @@ public class Generator {
 
     //TODO: Exact and not exact number of mirrors
     //FIXME: Solutions are shown with more mirrors than needed
+    //TODO: I must find out why this method returns repeating solutions
     public ArrayList<int[][]> findAllSolutionsRecursiv(int[][] currentGrid, int mirrors, ArrayList<Integer> placesToSet, boolean exactNumberOfElements) {
         ArrayList<int[][]> newSolutions = new ArrayList<>();
         if (mirrors <= 0 || placesToSet.isEmpty()) {
@@ -347,8 +355,8 @@ public class Generator {
 
    }
 
-   //TODO: exactNumberOfElements doesn't work!
-    ///TODO: Check whether the level was already solved!!
+   //TODO: I am not sure that exactNumberOfElements works!
+    //TODO: Check whether the level was already solved!!
     public void generateRandomLevelsRecursiv(boolean exactNumberOfPlayableElements) {
         int levelCount = 1;
         int[] originSources = Arrays.copyOf(this.sources, sources.length);
@@ -402,7 +410,6 @@ public class Generator {
             e = new IOException("Something wrong with File Writer");
             e.printStackTrace();
         }
-
     }
 
     public ArrayList<int[][]> removeRepeatingCombinations(ArrayList<int[][]> listToClear) {
@@ -418,18 +425,18 @@ public class Generator {
     }
 
     /**
-     * For the first time just one goal without extra sources that aren't needed (e.g. source C for AB goal)
-     * NB! a primitive version without checking whether the goal is not only reached but also filled correctly
+     * This method checks whether all goals are reached by the appropriate sources (== filled correctly). If one of goals isn't filled correctly,
+     * the method returns false.
      */
     public boolean allSourcesReachedTheGoal() {
         return allSourcesReachedTheGoal(this.grid);
     }
 
     public boolean allSourcesReachedTheGoal(int[][] grid) {
-        boolean[] completedGoals = new boolean[goals.length];
+        //boolean[] completedGoals = new boolean[goals.length];
 
         for (int goalIndex = 0; goalIndex < goals.length; goalIndex++) {
-            completedGoals[goalIndex] = false;
+            //completedGoals[goalIndex] = false;
             int result = 0;
 
             int goalPosition = goalsPositions[goalIndex];
@@ -444,18 +451,21 @@ public class Generator {
                 //}
             }
 
-            if (result == goalData) {
-                completedGoals[goalIndex] = true;
+            if (result != goalData) {
+                //completedGoals[goalIndex] = true;
+                return false;
             }
         }
 
-        boolean allReached = true;
+        /* boolean allReached = true;
         for (int i = 0; i < completedGoals.length; i++)  {
             if (completedGoals[i] == false) {
                 return false; //if there is at least one not completed goal, we return false
             }
         }
         return allReached; //if there is no goals that miss their sources, then we return true
+        */
+        return true;
     }
 
     public ArrayList<Integer> findAllEmptyCells() {
@@ -718,7 +728,7 @@ public class Generator {
 
     public int randomFreePlace2(ArrayList<Integer> emptySpaces) {
         Random random = new Random();
-        int randomNum = random.nextInt(emptySpaces.size()); //maxElement is Nth, range of nextInt is 0 to N-1, exactly what we need
+        int randomNum = random.nextInt(emptySpaces.size()); //maxElements is Nth, range of nextInt is 0 to N-1, exactly what we need
         int randomPlace = getElementAtPosition(emptySpaces.get(randomNum));
         //while (getElementAtPosition(randomNum) == HOLE || getElementAtPosition(randomNum) == WALL) {
         while (getElementAtPosition(randomPlace) != 0) {
@@ -732,10 +742,10 @@ public class Generator {
     ///this is the old origin method
     public int randomFreePlace() {
         Random random = new Random();
-        int randomNum = random.nextInt(maxElement); //maxElement is Nth, range of nextInt is 0 to N-1, exactly what we need
+        int randomNum = random.nextInt(maxElements); //maxElements is Nth, range of nextInt is 0 to N-1, exactly what we need
         //while (getElementAtPosition(randomNum) == HOLE || getElementAtPosition(randomNum) == WALL) {
         while (getElementAtPosition(randomNum) != 0) {
-            randomNum = random.nextInt(maxElement);
+            randomNum = random.nextInt(maxElements);
         }
         //System.out.println("Random place " + randomNum);
         return randomNum;
