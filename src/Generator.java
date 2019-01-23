@@ -1,4 +1,5 @@
 
+import javax.print.attribute.IntegerSyntax;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -28,6 +29,8 @@ public class Generator {
     private int walls;
     private int mirrors;
     private int additiveBlocks;
+    private int mirrorsUsed; //how many mirrors were used to reach the goal //TODO: Weitermachen, um die exactNumberOfElements fertig zu stellen
+    private Set<Integer> usedMirrrorsPlaces;
 
     //define the source(s) and goal
     private int[] sources;
@@ -90,13 +93,14 @@ public class Generator {
         this.goals = goals;
 
         this.grid = new int[gridHeight][gridWidth];
+        usedMirrrorsPlaces = new HashSet<>();
     }
 
     /** Further methods are used for automatic level generation   **/
 
     public int[][] generateEmptyLevel() {
 
-        fillTheEmptyGrid(); //We don't need it anymore since we work with integers //TODO: Why do we need this?
+        fillTheEmptyGrid();
 
         for (int i = 0; i < holes; i++) {
             int position = randomFreePlace();
@@ -132,7 +136,6 @@ public class Generator {
         return true;
     }
 
-    /** We don't need this method anymore since we work with integers, where 0 is default value **/
     private void fillTheEmptyGrid() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -252,9 +255,11 @@ public class Generator {
     }
 
     //TODO: Exact and not exact number of mirrors
+    // ^^(Simply return on finding a solution before we get to the last mirror will work for many cases, but not for all of them)
     //FIXME: Solutions are shown with more mirrors than needed
     //TODO: I must find out why this method returns repeating solutions
     public ArrayList<int[][]> findAllSolutionsRecursiv(int[][] currentGrid, int mirrors, ArrayList<Integer> placesToSet, boolean exactNumberOfElements) {
+
         ArrayList<int[][]> newSolutions = new ArrayList<>();
         if (mirrors <= 0 || placesToSet.isEmpty()) {
             return newSolutions;
@@ -267,18 +272,13 @@ public class Generator {
 
             placeElementAtPosition(placesToSet.get(i), 57, newGrid);
 
-            //for testing purposes
-            /* if (mirrors == 1 || mirrors == 2) {
-                System.out.println(gridToString(newGrid));
-                System.out.println("Current place: " + placesToSet.get(i));
-                System.out.println("Places to set: " + placesToSet.size() + "\n");
-            } */
-
+            this.usedMirrrorsPlaces = new HashSet<>(); //TODO: Brauche ich das?
             if (allSourcesReachedTheGoal(newGrid)) {
                 //System.out.println("Solution to add (57): " + "\n");
                 //System.out.println(gridToString(newGrid));
                 if (exactNumberOfElements) {
-                    if (mirrors == 1) {
+                    ///if (mirrors == 1) {
+                    if (usedMirrrorsPlaces.size() == this.mirrors) {
                         //System.out.println("Solution to add (57): " + "\n");
                         //System.out.println(gridToString(newGrid));
                         newSolutions.add(newGrid);
@@ -306,11 +306,14 @@ public class Generator {
                 System.out.println("Places to set: " + placesToSet.size() + "\n");
             } */
 
+
+            this.usedMirrrorsPlaces = new HashSet<>(); //TODO: Brauche ich das?
             if (allSourcesReachedTheGoal(newGrid)) {
                 //System.out.println("Solution to add (59): " + "\n");
                 //System.out.println(gridToString(newGrid));
                 if (exactNumberOfElements) {
-                    if (mirrors == 1) {
+                    //if (mirrors == 1) {
+                    if (usedMirrrorsPlaces.size() == this.mirrors) {
                         //System.out.println("Solution to add (59): " + "\n");
                         //System.out.println(gridToString(newGrid));
                         newSolutions.add(newGrid);
@@ -372,7 +375,7 @@ public class Generator {
                     if (!arrayIsEqual(allSolutions.get(0), this.grid)) {
                         //for testing purposes
                             System.out.println("Found a level no." + levelCount + " with an unique solution: ");
-                            writeGrid(gridForJSON(allSolutions.get(0), levelCount, false));
+                            writeGrid(gridForJSON(allSolutions.get(0), levelCount, true));
                         //end
                     }
                 } else if (allSolutions.size() == 0) {
@@ -502,8 +505,8 @@ public class Generator {
 
     public int getSourceData(int source) {
         int data = ((source + 91) / 100 ) * 100;
-        if (data < 100 || data > 900 ) { //FIXME maybe there is a better solution
-            return Integer.MIN_VALUE;
+        if (data%100 != 0) {
+            return Integer.MIN_VALUE; //Some error happened!
         }
         return data;
     }
@@ -529,6 +532,7 @@ public class Generator {
             if (rowPositions[i] < position) { //only if it on the left from the position
                 int currentElement = getElementAtPosition(rowPositions[i], grid);
                 if (currentElement == 57 || currentElement == 59 ) { //if there is a mirror on the way
+                    usedMirrrorsPlaces.add(rowPositions[i]);
                     if ((currentElement-50) == 7) { //if mirror stands like this: /
                         return getStopPositionBelow(rowPositions[i], grid);
                     } else { //if mirror stands like this: \
@@ -554,6 +558,7 @@ public class Generator {
             if (rowPositions[i] > position) { //only if it on the right from the position
                 int currentElement = getElementAtPosition(rowPositions[i], grid);
                 if (currentElement == 57 || currentElement == 59 ) { //if there is a mirror on the way
+                    usedMirrrorsPlaces.add(rowPositions[i]);
                     if ((currentElement-50) == 7) { //if mirror stands like this: /
                         return getStopPositionAbove(rowPositions[i], grid);
                     } else { //if mirror stands like this: \
@@ -579,6 +584,7 @@ public class Generator {
             if (columnPositions[i] > position) { //only if it below the position
                 int currentElement = getElementAtPosition(columnPositions[i], grid);
                 if (currentElement == 57 || currentElement == 59 ) { //if there is a mirror on the way
+                    usedMirrrorsPlaces.add(columnPositions[i]);
                     if ((currentElement-50) == 7) { //if mirror stands like this: /
                         return getStopPositionOnLeft(columnPositions[i], grid);
                     } else { //if mirror stands like this: \
@@ -604,6 +610,7 @@ public class Generator {
             if (columnPositions[i] < position) { //only if it above the position
                 int currentElement = getElementAtPosition(columnPositions[i], grid);
                 if (currentElement == 57 || currentElement == 59 ) { //if there is a mirror on the way
+                    usedMirrrorsPlaces.add(columnPositions[i]);
                     if ((currentElement-50) == 7) { //if mirror stands like this: /
                         return getStopPositionOnRight(columnPositions[i], grid);
                     } else { //if mirror stands like this: \
