@@ -8,7 +8,6 @@ import java.util.*;
  * Version 0.1.8 (Internal works with integers (origin were String), solution finding (up to 6 mirrors), random level generation)
  */
 
-//TODO: Erweitern um die Ausschreiben aller generierten Levels mit der Lösung in JSON
 public class Generator {
 
     private final static int HOLE = -1;
@@ -29,7 +28,6 @@ public class Generator {
     private int walls;
     private int mirrors;
     private int additiveBlocks;
-    private int mirrorsUsed; //how many mirrors were used to reach the goal //TODO: Weitermachen, um die exactNumberOfElements fertig zu stellen
     private Set<Integer> usedMirrrorsPlaces;
 
     //define the source(s) and goal
@@ -254,9 +252,7 @@ public class Generator {
         return true;
     }
 
-    //TODO: Exact and not exact number of mirrors
-    // ^^(Simply return on finding a solution before we get to the last mirror will work for many cases, but not for all of them)
-    //FIXME: Solutions are shown with more mirrors than needed
+    //FIXME: Check if solutions are shown with more mirrors than needed
     //TODO: I must find out why this method returns repeating solutions
     public ArrayList<int[][]> findAllSolutionsRecursiv(int[][] currentGrid, int mirrors, ArrayList<Integer> placesToSet, boolean exactNumberOfElements) {
 
@@ -272,7 +268,7 @@ public class Generator {
 
             placeElementAtPosition(placesToSet.get(i), 57, newGrid);
 
-            this.usedMirrrorsPlaces = new HashSet<>(); //TODO: Brauche ich das?
+            this.usedMirrrorsPlaces = new HashSet<>();
             if (allSourcesReachedTheGoal(newGrid)) {
                 //System.out.println("Solution to add (57): " + "\n");
                 //System.out.println(gridToString(newGrid));
@@ -307,7 +303,7 @@ public class Generator {
             } */
 
 
-            this.usedMirrrorsPlaces = new HashSet<>(); //TODO: Brauche ich das?
+            this.usedMirrrorsPlaces = new HashSet<>();
             if (allSourcesReachedTheGoal(newGrid)) {
                 //System.out.println("Solution to add (59): " + "\n");
                 //System.out.println(gridToString(newGrid));
@@ -358,7 +354,6 @@ public class Generator {
 
    }
 
-   //TODO: I am not sure that exactNumberOfElements works!
     //TODO: Check whether the level was already solved!!
     public void generateRandomLevelsRecursiv(boolean exactNumberOfPlayableElements) {
         int levelCount = 1;
@@ -387,7 +382,7 @@ public class Generator {
                          /* for (int[][] solution : allSolutions) {
                             System.out.println(gridToString(solution));
                         } */
-                        writeGrid(gridForJSON(allSolutions.get(0), levelCount, false));
+                        writeGrid(gridForJSON(allSolutions.get(0), levelCount, true));
                     }
                 }
             } else {
