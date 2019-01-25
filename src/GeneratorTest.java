@@ -223,6 +223,77 @@ public class GeneratorTest {
          assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution2, foundSolutions.get(1)));
     }
 
+
+    /** Takes less than 3s!!! **/
+    @Test
+    public void findAllSolutionWith6MirrorsIterativNeu() {
+        int[][] solvableLevel = new int[][] {       {0, 0, 0, 1, -1},
+                {0, 1, 0, 0, 104},
+                {-1, -1, 0, 0, 300},
+                {208, 0, 0, 0, 0} };
+
+        int[][] solution1 = new int[][] {   {57, 0, 59, 1, -1},
+                {0, 1, 0, 57, 104},
+                {-1, -1, 0, 59, 300},
+                {208, 0, 59, 0, 57} };
+
+        int[][] solution2 = new int[][] {  {57, 0, 59, 1, -1},
+                {0, 1, 0, 57, 104},
+                {-1, -1, 59, 0, 300},
+                {208, 0, 0, 59, 57} };
+
+        ArrayList<int[][]> solutions = new ArrayList<>();
+        solutions.add(solution1);
+        solutions.add(solution2);
+
+        int[] sources = {104, 208};
+        int[] goals = {300};
+        int[] sourcesPositions = {9, 15};
+        int[] goalPosition = {14};
+        Generator gen = new Generator(5, 4, solvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        //ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel, true);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativNeu( 6, solvableLevel, false);
+
+          for (int i = 0; i < foundSolutions.size(); i++) {
+             System.out.println("Solution " + i + "\n");
+             System.out.println(gen.gridToString(foundSolutions.get(i)));
+         }
+
+        assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution1, foundSolutions.get(1)));
+        assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution2, foundSolutions.get(0)));
+    }
+
+    /** for testing of exact number of mirrors**/
+    @Test
+    public void findAllSolutions8() {
+        int[][] solvableLevel = new int[][] {       {0, 300, 0, 104},
+                                                    {-1, 0, 0, 0},
+                                                    {0, 204, 1, 0}};
+
+        int[] sources = {104, 204};
+        int[] goals = {300};
+        int[] sourcesPositions = {3, 9};
+        int[] goalPosition = {1};
+        Generator gen = new Generator(4, 3, solvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativNeu(5, solvableLevel, true);
+
+        for (int i = 0; i < foundSolutions.size(); i++) {
+            System.out.println("Solution " + i + "\n");
+            System.out.println(gen.gridToString(foundSolutions.get(i)));
+        }
+    }
+
     /** Takes 5 min 30 s **/
     @Test
     public void findAllSolutions7Mirrors() {
@@ -260,6 +331,38 @@ public class GeneratorTest {
     }
 
     @Test
+    public void findAllSolutions7MirrorsIterativNeu() {
+        int[][] solvableLevel = new int[][] {       {100, 200, 1, 1,   -1},
+                {  0,   0, -1, -1,   0},
+                {  0,   0, 0, 1,   -1},
+                {  -1,   0, -1, 0,   0},
+                {208,   0, 0, 0, 104}};
+
+        int[] sources = {104, 208};
+        int[] goals = {100,200};
+        int[] sourcesPositions = {24, 20};
+        int[] goalPosition = {0, 1};
+        Generator gen = new Generator(5, 5, solvableLevel);
+        gen.setSources(sources);
+        gen.setGoals(goals);
+        gen.setSourcesPositions(sourcesPositions);
+        gen.setGoalsPositions(goalPosition);
+
+        //ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel, true);
+
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativNeu(7, solvableLevel,false);
+
+        //There are two unique solutions
+        for (int i = 0; i < foundSolutions.size(); i++) {
+            System.out.println("Solution " + i + "\n");
+            System.out.println(gen.gridToString(foundSolutions.get(i)));
+        }
+
+        //assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution1, foundSolutions.get(0)));
+        //assertTrue("The found solution for the given grid doesn't match the expected one", gen.arrayIsEqual(solution2, foundSolutions.get(1)));
+    }
+
+    @Test
     public void testFindASolution4() {
         int[][] solvableLevel = new int[][] {{0, 0, 300, 0, 204},
                                              {0, 0, -1, 1, 1},
@@ -276,7 +379,12 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(3, solvableLevel, false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativNeu(3, solvableLevel, false);
+
+        for (int i = 0; i < foundSolutions.size(); i++) {
+            System.out.println("Solution " + i + "\n");
+            System.out.println(gen.gridToString(foundSolutions.get(i)));
+        }
 
         //assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, playableGenerator.findASolution());
     }
@@ -339,7 +447,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(4, solvableLevel, false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativNeu(4, solvableLevel, false);
 
         assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, foundSolutions.get(0));
     }
@@ -424,7 +532,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, solvableLevel, false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativNeu(2, solvableLevel, false);
 
         //assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, foundSolutions.get(0));
     }

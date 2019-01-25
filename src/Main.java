@@ -9,9 +9,9 @@ public class Main {
         int[] sources = {100, 200};
         int[] goals = {300};
 
-        Generator generator = new Generator(4, 3, 1, 1, 5, sources, goals);
+        Generator generator = new Generator(4, 3, 1, 1, 6, sources, goals);
         //Generator generator = new Generator(4, 4, 3, 3, 4, sources, goals);
-        generator.generateRandomLevelsRecursiv(true);
+        generator.generateRandomLevels(true);
 
         //generator.generateRandomLevelsIterativ(true);
 
