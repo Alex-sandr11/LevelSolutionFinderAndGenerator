@@ -10,7 +10,7 @@ public class Main {
         int[] sources = {100, 200, 400, 500};
         int[] goals = {300, 900};
 
-        Generator generator = new Generator(5, 4, 2, 2, 7, sources, goals);
+        Generator generator = new Generator(5, 4, 3, 3, 5, sources, goals);
         generator.generateRandomLevels(true);
 
 

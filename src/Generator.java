@@ -531,54 +531,44 @@ public class Generator {
         HashSet<Integer> possibleDirections = new HashSet<>();
 
         int[] columnPositions = findTheColumnPositions(sourcePosition);
-        //TO-DO: check all cells that there is at least one empty place in a row/column?
-        boolean thereIsAnEmptyPlaceAbove = false;
-        boolean thereIsAnEmptyPlaceBelow = false;
+
         for(int i = 0; i < columnPositions.length; i++) {
-            int currentElement = getElementAtPosition(columnPositions[i]);
-
-            if (columnPositions[i] < sourcePosition) {
-
-                if (columnPositions[i] == sourcePosition - gridWidth) { //if this is the place above
-                    if (currentElement != 1 && !Arrays.asList(sourcesPositions).contains(columnPositions[i])) { //added to check whether there is no wall or another source in the cell above
+            int currentPosition = columnPositions[i];
+            int currentElement = getElementAtPosition(currentPosition);
+            if (currentPosition < sourcePosition) {
+                if (currentPosition == sourcePosition - gridWidth) { //if this is the place above
+                    if (currentElement != 1 && !isSourcePosition(currentPosition) && !isGoalPosition(currentPosition)) { //added to check whether there is no wall or another source in the cell above
                         possibleDirections.add(8);
                     }
                 }
             }
-            //FIXME: Doesn't work properly with sources positions!!
-            if (columnPositions[i] > sourcePosition){
 
-                if (columnPositions[i] == sourcePosition + gridWidth) { //if this is the place below
-                    if (currentElement != 1 && !Arrays.asList(sourcesPositions).contains(columnPositions[i])) { //added to check whether there is no wall or another source in the cell above
+            if (columnPositions[i] > sourcePosition){
+                if (currentPosition == sourcePosition + gridWidth) { //if this is the place below
+                    if (currentElement != 1 && !isSourcePosition(currentPosition) && !isGoalPosition(currentPosition)) { //added to check whether there is no wall or another source in the cell above
                         possibleDirections.add(2);
                     }
                 }
 
             }
         }
-        /* if (thereIsAnEmptyPlaceAbove) {
-            possibleDirections.add(8);
-        }
-        if (thereIsAnEmptyPlaceBelow) {
-            possibleDirections.add(2);
-        } */
 
         int[] rowPositions = findTheRowPositions(sourcePosition);
         for(int i = 0; i < rowPositions.length; i++) {
-            int currentElement = getElementAtPosition(rowPositions[i]);
+            int currentPosition = rowPositions[i];
+            int currentElement = getElementAtPosition(currentPosition);
 
-            if (rowPositions[i] < sourcePosition) {
-
-                if (rowPositions[i] == sourcePosition-1) { //if this is the place on the left
-                    if (currentElement != 1 && !Arrays.asList(sourcesPositions).contains(rowPositions[i])) { //added to check whether there is no wall in the cell on the left
+            if (currentPosition < sourcePosition) {
+                if (currentPosition == sourcePosition-1) { //if this is the place on the left
+                    if (currentElement != 1 && !isSourcePosition(currentPosition) && !isGoalPosition(currentPosition)) { //added to check whether there is no wall in the cell on the left
                         possibleDirections.add(4);
                     }
                 }
             }
-            //FIXME: Doesn't work properly with sources positions!!
-            if (rowPositions[i] > sourcePosition){
-                if (rowPositions[i] == sourcePosition+1) { //if this is the place on the right
-                    if (currentElement != 1 && !Arrays.asList(sourcesPositions).contains(rowPositions[i])) { //added to check whether there is no wall in the cell on the left
+
+            if (currentPosition > sourcePosition){
+                if (currentPosition == sourcePosition+1) { //if this is the place on the right
+                    if (currentElement != 1 && !isSourcePosition(currentPosition) && !isGoalPosition(currentPosition)) { //added to check whether there is no wall in the cell on the left
                         possibleDirections.add(6);
                     }
                 }
@@ -588,6 +578,24 @@ public class Generator {
         ArrayList<Integer> endList = new ArrayList<>(possibleDirections);
 
         return endList;
+    }
+
+    private boolean isSourcePosition(int currentPosition) {
+        for (int position : this.sourcesPositions) {
+            if (position == currentPosition) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isGoalPosition(int currentPosition) {
+        for (int position : this.goalsPositions) {
+            if (position == currentPosition) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int[][] copyOf2DArray(int[][] arrayToCopy) {
