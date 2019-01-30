@@ -6,15 +6,15 @@ public class Main {
     public static void main(String[] args) {
 
 
-        int[] sources = {100, 200};
-        int[] goals = {300};
+        /** For generating random levels  **/
+        int[] sources = {100, 200, 400, 500};
+        int[] goals = {300, 900};
 
-        Generator generator = new Generator(4, 3, 1, 1, 6, sources, goals);
-        //Generator generator = new Generator(4, 4, 3, 3, 4, sources, goals);
+        Generator generator = new Generator(5, 4, 2, 2, 7, sources, goals);
         generator.generateRandomLevels(true);
 
-        //generator.generateRandomLevelsIterativ(true);
 
+        /** For solutions finding for an existing level. Below is an example **/
         /* int[][] solvableLevel = new int[][] {{102, 1, -1, 300, 0},
                                                 {0, 0, -1, 0, 0},
                                                 {-1, 0, -1, 1, 0},
@@ -30,14 +30,7 @@ public class Main {
         generator.setSourcesPositions(sourcesPositions);
         generator.setGoalsPositions(goalPosition);
 
-        generator.findAllSolutionsIterativ(4, solvableLevel); */
-
-
-        //generator.generateAllLevelsWithOneSolutionIterativ();
-        //String[][] generatedLevel = generator.generateLevel();
-        //generator.findAllSolutionsIterativ(3, generatedLevel);
-
-        //generator.generateAllLevelsWithOneSolutionIterativ();
+        generator.findAllSolutionsIterativ(4, solvableLevel, false); */
 
     }
 }
