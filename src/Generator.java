@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Version 0.1.8 (Internal works with integers (origin were String), solution finding (up to 6 mirrors), random level generation)
+ * Version 0.2.0 (Internal works with integers, solution finding (up to 8 mirrors and maybe more), random level generation)
  */
 
 public class Generator {
@@ -27,9 +27,8 @@ public class Generator {
     private int walls;
     private int mirrors;
     private int additiveBlocks;
-    private Set<Integer> usedMirrrorsPlaces;
 
-    //define the source(s) and goal
+    //define the source(s) and goal(s)
     private int[] sources;
     private int[] sourcesPositions;
     private int[] goals;
@@ -56,21 +55,8 @@ public class Generator {
         this.mirrors = mirrors;
     }
 
-    public Generator(int gridWidth, int gridHeight, int holes, int walls, int mirrors, int additiveBlocks, int[] sources, int[] goals) {
-        this.maxElements = gridHeight * gridWidth;
-        this.gridWidth = gridWidth;
-        this.gridHeight = gridHeight;
-        this.holes = holes;
-        this.walls = walls;
-        this.mirrors = mirrors;
-        this.additiveBlocks = additiveBlocks;
-        this.sources = sources;
-        this.goals = goals;
-        this.grid = new int[gridHeight][gridWidth];
-    }
-
-    //for generating new levels
     /**
+     * For generating new levels
      * NB! this.grid = new String[gridHeight][gridWidth];
      */
     public Generator(int gridWidth, int gridHeight, int holes, int walls, int mirrors, int[] sources, int[] goals) {
@@ -90,11 +76,12 @@ public class Generator {
         this.goals = goals;
 
         this.grid = new int[gridHeight][gridWidth];
-        usedMirrrorsPlaces = new HashSet<>();
     }
 
-    /** Further methods are used for automatic level generation   **/
-
+    /**
+     * Generates empty level with given amount of holes and walls and also places sources and goals
+     * @return
+     */
     public int[][] generateEmptyLevel() {
 
         fillTheEmptyGrid();
@@ -115,6 +102,12 @@ public class Generator {
         return this.grid;
     }
 
+    /**
+     * Sets sources directions by searching for possible laser directions and randomly choosing one of them.
+     * We save each source with the set direction in the array of sources.
+     * @return true if it was possible to set a direction for all sources
+     *         false if not
+     */
     public boolean setSourceDirections() {
         for (int i = 0; i < sources.length; i++) {
             int sourceData = sources[i];
@@ -129,10 +122,12 @@ public class Generator {
             sources[i] = sourceWithADirection;
             placeElementAtPosition(sourcePosition, sourceWithADirection);
         }
-        //System.out.println("This level was generated: " + "\n" + gridToString(this.grid));
         return true;
     }
 
+    /**
+     * Fills the grid with 0 (0 is an empty place)
+     */
     private void fillTheEmptyGrid() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -141,6 +136,9 @@ public class Generator {
         }
     }
 
+    /**
+     * Places sources (without laser direction) and goals on randomly chosen empty places
+     */
     private void placeSourcesAndGoals() {
         sourcesPositions = new int[sources.length];
         goalsPositions = new int[goals.length];
@@ -160,8 +158,15 @@ public class Generator {
 
     }
 
-    /** Further methods are used for filling the needed fields of a Generator if the prepared grid was given **/
-
+    /**
+     * Finds all solutions for a level by going through all empty places and setting mirrors and then checking whether the level was solved.
+     *
+     * @param mirrors amount of mirrors should be used for solving the level
+     * @param grid the grid (level) to solve
+     * @param exactNumberOfPlayableElements true if it should search for solutions with the exact given number of mirrors
+     *                                      false if solutions with less mirrors are acceptable
+     * @return array list of unique solutions
+     */
     public ArrayList<int[][]> findAllSolutionsIterativ(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
        //At first we check whether this level isn't already solved without any playable elements
         if (allSourcesReachedTheGoal(grid)) {
@@ -195,7 +200,7 @@ public class Generator {
                 }
             }
             allPossibleCombinations.addAll(newestPossibleCombinations);
-            allPossibleCombinations.subList(0, lastIndex+1).clear();
+            allPossibleCombinations.subList(0, lastIndex+1).clear(); //we remove the combinations that we don't need anymore
 
             if (m == 1) {
                 allPossibleCombinations.subList(0, 1).clear(); //we remove the empty grid after the first iteration
@@ -216,6 +221,7 @@ public class Generator {
         }
 
         ArrayList<int[][]> uniqueSolutions = removeRepeatingCombinations(allSolutions);
+        //ArrayList<int[][]> uniqueSolutions = allSolutions;
 
         //System.out.println("All combinations: " + (allPossibleCombinations.size()-1));
         //System.out.println("Solutions found: " + allSolutions.size());
@@ -224,6 +230,12 @@ public class Generator {
         return uniqueSolutions;
     }
 
+    /**
+     * Finds the last place (from all initially empty places) where the mirror was placed
+     * @param emptyPlaces initially empty places
+     * @param currentGrid level with elements
+     * @return the last place where a mirror was placed
+     */
     private int findTheLastMirrorPlaceIndex(ArrayList<Integer> emptyPlaces, int[][] currentGrid) {
         int maxIndex = 0;
         for (int i = 0; i < emptyPlaces.size(); i++) {
@@ -248,6 +260,12 @@ public class Generator {
         return allPositions;
     }
 
+    /**
+     * Checks whether both arrays are equal
+     * @param array1
+     * @param array2
+     * @return true if arrays are equals, false if not
+     */
     public boolean arrayIsEqual(int[][] array1, int[][] array2) {
         for (int row = 0; row < array1.length; row++) {
             for (int col = 0; col < array1[row].length; col++) {
@@ -259,6 +277,10 @@ public class Generator {
         return true;
     }
 
+    /**
+     * Generates random levels and writes out those who have less or equal to 3 solutions (can be changed).
+     * @param exactNumberOfPlayableElements
+     */
     public void generateRandomLevels(boolean exactNumberOfPlayableElements) {
         int levelCount = 1;
         int[] originSources = Arrays.copyOf(this.sources, sources.length);
@@ -291,6 +313,10 @@ public class Generator {
 
     }
 
+    /**
+     * Appends a grid to a file for further instantiating on the Unity side
+     * @param grid
+     */
     private void writeGrid(String grid) {
 
         FileWriter writer;
@@ -306,6 +332,11 @@ public class Generator {
         }
     }
 
+    /**
+     * Goes through all combinations and removes the repeating ones by checking their equality
+     * @param listToClear
+     * @return array list of unique combinations
+     */
     public ArrayList<int[][]> removeRepeatingCombinations(ArrayList<int[][]> listToClear) {
         ArrayList<int[][]> uniqueCombinations = new ArrayList<>(listToClear);
         for (int i = 0; i < listToClear.size(); i++) {
@@ -362,6 +393,11 @@ public class Generator {
         return true;
     }
 
+    /**
+     * Finds all empty places on a grid
+     * @param grid
+     * @return array list of empty places positions
+     */
     public ArrayList<Integer> findAllEmptyCells(int[][] grid) {
         ArrayList<Integer> emptyCells = new ArrayList<>();
 
@@ -381,6 +417,11 @@ public class Generator {
      return sourceData + direction;
     }
 
+    /**
+     * Gets the direction of a source, e.g. 2 of 102-source
+     * @param source source to get the direction from (e.g. 102)
+     * @return the direction of the source (e.g. 2)
+     */
     public int getSourceDirection(int source) {
         int sourceDirection = source % 100;
         if (sourceDirection != 2 && sourceDirection != 4 && sourceDirection !=6 && sourceDirection !=8) {
@@ -390,6 +431,11 @@ public class Generator {
 
     }
 
+    /**
+     * Gets the source data from a source (e.g. 100 from 102)
+     * @param source
+     * @return
+     */
     public int getSourceData(int source) {
         int data = ((source + 91) / 100 ) * 100;
         if (data%100 != 0) {
@@ -412,6 +458,16 @@ public class Generator {
         return endLaserPosition(position, direction, this.grid);
     }
 
+    /**
+     * This method and all such methods below functions as following:
+     * The appropriate row/column has been checked for elements and if the "laser" stops
+     * (e.g. because of the end of the row/column or a wall),
+     * this position will be returned.
+     * If there was a mirror on the way, the appropriate method will be called.
+     * @param position where the source is placed
+     * @param grid
+     * @return stop position of the "laser"
+     */
     private int getStopPositionOnLeft(int position, int[][] grid) { //if the laser shoot to the left
         int[] rowPositions = findTheRowPositions(position);
         for(int i = rowPositions.length-1; i >= 0; i--) {
@@ -424,7 +480,7 @@ public class Generator {
                         return getStopPositionAbove(rowPositions[i], grid);
                     }
                 }
-                else if (currentElement != 0 && currentElement != -1 ) { //if there is something on the way (not an empty cell, not a hole)
+                else if (currentElement != 0 && currentElement != -1) { //if there is something on the way (not an empty cell, not a hole)
                     return rowPositions[i];
                 }
             }
@@ -527,6 +583,12 @@ public class Generator {
     }
 
     //FIXME: for future improvement: we can check, whether there are at least one empty place in the row/column
+
+    /**
+     * Checks all four directions for a possibility to shoot laser for source on a certain position
+     * @param sourcePosition
+     * @return arrray list of possible positions
+     */
     private ArrayList<Integer> findPossibleLaserDirections(int sourcePosition) {
         HashSet<Integer> possibleDirections = new HashSet<>();
 
@@ -608,8 +670,8 @@ public class Generator {
         return copy;
     }
 
-    //FIXME: Warning if there is no more free place in the grid
-    //New method that can be helpful for optimization
+    //This is just an optional method, which probably makes no so much sense. Thought as "New method that can be helpful for optimization"
+    //For future improvement:  Warning if there is no more free place in the grid
     public int randomFreePlace2(ArrayList<Integer> emptySpaces) {
         Random random = new Random();
         int randomNum = random.nextInt(emptySpaces.size()); //maxElements is Nth, range of nextInt is 0 to N-1, exactly what we need
