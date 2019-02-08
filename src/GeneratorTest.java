@@ -614,6 +614,26 @@ public class GeneratorTest {
     }
 
     @Test
+    public void borderRowAndColumnsAreUsed() {
+        int[][] notAValidLevel = {  {57,-1,104,202,1},
+                                    {59,-1,300,-1,0},
+                                    {1,-1,59,57,1},
+                                    {1,1,-1,-1,-1}};
+
+        Generator generator = new Generator(5, 4, notAValidLevel);
+        int[] sources = {104, 202};
+        int[] goals = {300};
+        int[] sourcesPositions = {2, 3};
+        int[] goalPosition = {7};
+        generator.setSources(sources);
+        generator.setGoals(goals);
+        generator.setSourcesPositions(sourcesPositions);
+        generator.setGoalsPositions(goalPosition);
+
+        assertEquals("A not valid level with a not used border row was found valid", false, generator.borderRowsAndColumnsAreUsed());
+    }
+
+    @Test
     public void gridToString() {
         int[][] grid = { {102, 406, 400, 300, 59},
                 {59,  0, -1,  57,  0},

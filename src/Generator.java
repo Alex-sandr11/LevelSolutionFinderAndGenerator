@@ -109,6 +109,11 @@ public class Generator {
      *         false if not
      */
     public boolean setSourceDirections() {
+
+        if (!borderRowsAndColumnsAreUsed()) {
+            return false;
+        }
+
         for (int i = 0; i < sources.length; i++) {
             int sourceData = sources[i];
             int sourcePosition = sourcesPositions[i];
@@ -122,6 +127,48 @@ public class Generator {
             sources[i] = sourceWithADirection;
             placeElementAtPosition(sourcePosition, sourceWithADirection);
         }
+        return true;
+    }
+
+    public boolean borderRowsAndColumnsAreUsed() {
+
+        for (int column = 0; column < gridWidth; column+=(gridWidth-1)) {
+            boolean thereIsFreePlace = false;
+            int[] currentColumn;
+            if (column == 0) {
+                currentColumn = findTheColumnPositions(0);
+            } else {
+                currentColumn = findTheColumnPositions(maxElements-1);
+            }
+            for (int i = 0; i < currentColumn.length; i++) {
+                if (getElementAtPosition(currentColumn[i]) == 0 || isSourcePosition(currentColumn[i]) || isGoalPosition(currentColumn[i])) {
+                    thereIsFreePlace = true;
+                }
+            }
+            if (!thereIsFreePlace) {
+                return false;
+            }
+        }
+
+        for (int row = 0; row < gridHeight; row+=(gridHeight-1)) {
+            boolean thereIsFreePlace = false;
+            int[] currentRow;
+            if (row == 0) {
+                currentRow = findTheRowPositions(0);
+            } else {
+                currentRow = findTheRowPositions(maxElements-1);
+            }
+            for (int i = 0; i < currentRow.length; i++) {
+                if (getElementAtPosition(currentRow[i]) == 0 || isSourcePosition(currentRow[i]) || isGoalPosition(currentRow[i])) {
+                    thereIsFreePlace = true;
+                }
+            }
+            if (!thereIsFreePlace) {
+                return false;
+            }
+        }
+
+        //If there is no problem with border rows and columns
         return true;
     }
 

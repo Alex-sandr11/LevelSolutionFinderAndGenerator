@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * This class allows user to set the requirements for level generating or set a level and check it for solutions.
+ */
 public class Main {
 
     public static void main(String[] args) {
@@ -10,7 +10,7 @@ public class Main {
         int[] sources = {100, 200};
         int[] goals = {300};
 
-        Generator generator = new Generator(4, 3, 3, 2, 4, sources, goals);
+        Generator generator = new Generator(5, 4, 7, 5, 4, sources, goals);
         generator.generateRandomLevels(true);
 
 
