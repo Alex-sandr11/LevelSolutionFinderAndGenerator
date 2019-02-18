@@ -145,7 +145,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, notAsolvableLevel, true);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(6, notAsolvableLevel, true);
 
         assertEquals("Amount of found solutions didn't match the expected one", 0, foundSolutions.size());
 
@@ -204,7 +204,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-         ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel, false);
+         ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(6, solvableLevel, false);
 
          //foundSolutions = gen.removeRepeatingCombinations(foundSolutions); //Why should I do this?
 
@@ -245,7 +245,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ( 6, solvableLevel, false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative( 6, solvableLevel, false);
 
           for (int i = 0; i < foundSolutions.size(); i++) {
              System.out.println("Solution " + i + "\n");
@@ -273,7 +273,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(5, solvableLevel, true);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(5, solvableLevel, true);
 
         for (int i = 0; i < foundSolutions.size(); i++) {
             System.out.println("Solution " + i + "\n");
@@ -300,7 +300,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(6, solvableLevel, true);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(6, solvableLevel, true);
 
         foundSolutions = gen.removeRepeatingCombinations(foundSolutions); //Why should I do this?
 
@@ -333,7 +333,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(7, solvableLevel,false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(7, solvableLevel,false);
 
         //There are two unique solutions
         for (int i = 0; i < foundSolutions.size(); i++) {
@@ -362,7 +362,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(3, solvableLevel, false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(3, solvableLevel, false);
 
         for (int i = 0; i < foundSolutions.size(); i++) {
             System.out.println("Solution " + i + "\n");
@@ -396,7 +396,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-       ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(5, solvableLevel, false);
+       ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(5, solvableLevel, false);
 
        for (int i = 0; i < foundSolutions.size(); i++) {
            System.out.println("Solution " + i + "\n");
@@ -428,7 +428,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(4, solvableLevel, false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(4, solvableLevel, false);
 
         assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, foundSolutions.get(0));
     }
@@ -450,7 +450,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, notASolvableLevel,false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(2, notASolvableLevel,false);
 
         for (int i = 0; i < foundSolutions.size(); i++) {
             System.out.println("Solution " + i + "\n");
@@ -480,7 +480,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, solvableGrid,false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(2, solvableGrid,false);
 
         for (int i = 0; i < foundSolutions.size(); i++) {
             System.out.println("Solution " + i + "\n");
@@ -507,7 +507,7 @@ public class GeneratorTest {
         gen.setSourcesPositions(sourcesPositions);
         gen.setGoalsPositions(goalPosition);
 
-        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterativ(2, solvableLevel, false);
+        ArrayList<int[][]> foundSolutions = gen.findAllSolutionsIterative(2, solvableLevel, false);
 
         //assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, foundSolutions.get(0));
     }

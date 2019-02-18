@@ -22,15 +22,15 @@ public class Main {
 
         Generator generator = new Generator(5,4, solvableLevel);
 
-        //int[] sourcesPositions = {0, 15};
-        //int[] goalPosition = {3};
+        int[] sourcesPositions = {0, 15};
+        int[] goalPosition = {3};
 
         generator.setSources(sources);
         generator.setGoals(goals);
         generator.setSourcesPositions(sourcesPositions);
         generator.setGoalsPositions(goalPosition);
 
-        generator.findAllSolutionsIterativ(4, solvableLevel, false); */
+        generator.findAllSolutionsIterative(4, solvableLevel, false); */
 
     }
 }

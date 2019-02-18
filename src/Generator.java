@@ -214,7 +214,7 @@ public class Generator {
      *                                      false if solutions with less mirrors are acceptable
      * @return array list of unique solutions
      */
-    public ArrayList<int[][]> findAllSolutionsIterativ(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
+    public ArrayList<int[][]> findAllSolutionsIterative(int mirrors, int[][] grid, boolean exactNumberOfPlayableElements) {
        //At first we check whether this level isn't already solved without any playable elements
         if (allSourcesReachedTheGoal(grid)) {
             //System.out.println("Grid is already solved!");
@@ -336,7 +336,7 @@ public class Generator {
             this.sources = Arrays.copyOf(originSources, originSources.length);
             this.grid = generateEmptyLevel();
             if (setSourceDirections()) {
-                ArrayList<int[][]> allSolutions = findAllSolutionsIterativ(mirrors, this.grid, exactNumberOfPlayableElements);
+                ArrayList<int[][]> allSolutions = findAllSolutionsIterative(mirrors, this.grid, exactNumberOfPlayableElements);
                 if (allSolutions.size() == 1) {
                     if (!arrayIsEqual(allSolutions.get(0), this.grid)) {
                             System.out.println("Found a level no." + levelCount + " with an unique solution: ");
