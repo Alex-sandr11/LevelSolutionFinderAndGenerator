@@ -11,7 +11,7 @@ public class Main {
         int[] goals = {300};
 
         Generator generator = new Generator(5, 4, 7, 5, 4, sources, goals);
-        generator.generateRandomLevels(true);
+        generator.generateRandomLevels(true, 3);
 
 
         /** For solutions finding for an existing level. Below is an example **/

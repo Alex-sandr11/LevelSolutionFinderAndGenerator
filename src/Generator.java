@@ -328,7 +328,7 @@ public class Generator {
      * Generates random levels and writes out those who have less or equal to 3 solutions (can be changed).
      * @param exactNumberOfPlayableElements
      */
-    public void generateRandomLevels(boolean exactNumberOfPlayableElements) {
+    public void generateRandomLevels(boolean exactNumberOfPlayableElements, int numberOfSolutionsAllowed) {
         int levelCount = 1;
         int[] originSources = Arrays.copyOf(this.sources, sources.length);
 
@@ -345,7 +345,7 @@ public class Generator {
                 } else if (allSolutions.size() == 0) {
                     //System.out.println("No solutions to the level was found");
                 } else {
-                    if (allSolutions.size() <= 3) {
+                    if (allSolutions.size() <= numberOfSolutionsAllowed) {
                         System.out.println("This level no." + levelCount + " had more than one solution: " + allSolutions.size());
                         writeGrid(gridForJSON(allSolutions.get(0), levelCount, true));
                     }
