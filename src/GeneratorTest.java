@@ -126,7 +126,7 @@ public class GeneratorTest {
         assertEquals("The found element at given position doesn't match the expected one", Integer.MIN_VALUE, generator.getElementAtPosition(20));
     }
 
-    /** Took 16,5 s **/
+    /** Took 16,5 s **/ /** Best time 2,6s **/
     @Test
     public void findAllSolutions5x5Sources4Mirrors6() {
         int[][] notAsolvableLevel = new int[][] {       {  1,  -1, 206, 900, 300},
@@ -172,7 +172,7 @@ public class GeneratorTest {
     }
 
 
-    /** Takes more than 20 Minutes and still doesn't solve the level! **/ /** Solved in 18m 25s **/ /** Best time 19s **/
+    /** Takes more than 20 Minutes and still doesn't solve the level! **/ /** Solved in 18m 25s **/ /** Best time 2,2s **/
      @Test
     public void findAllSolutionWith6Mirrors() {
         int[][] solvableLevel = new int[][] {       {0, 0, 0, 1, -1},
@@ -281,7 +281,7 @@ public class GeneratorTest {
         }
     }
 
-    /** Takes 5 min 30 s **/
+    /** Takes 5 min 30 s **/ /** Best time 2,5s **/
     @Test
     public void findAllSolutions7Mirrors() {
         int[][] solvableLevel = new int[][] {       {100, 200, 1, 1,   -1},
@@ -372,7 +372,7 @@ public class GeneratorTest {
         //assertEquals("The found solution for the given grid doesn't match the expected one", expectedGrid, playableGenerator.findASolution());
     }
 
-    /** Takes > 7s (because 5 mirrors) **/ /** Avg time 3,5s **/ /** Best time 2,7s (with adapter) !!!! Recursiv less than 1s without adapter!!!! **/
+    /** Takes > 7s (because 5 mirrors) **/ /** Avg time 3,5s **/ /** Best time 2,7s (with adapter) !!!! Recursive less than 1s without adapter!!!! **/
    @Test
     public void testFindASolution3() {
         int[][] solvableLevel = new int[][] {   {0, 0, 1, 100},

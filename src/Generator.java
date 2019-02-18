@@ -325,8 +325,9 @@ public class Generator {
     }
 
     /**
-     * Generates random levels and writes out those who have less or equal to 3 solutions (can be changed).
+     * Generates random levels and writes out those who have less or equal to numberOfSolutionsAllowed.
      * @param exactNumberOfPlayableElements
+     * @param numberOfSolutionsAllowed
      */
     public void generateRandomLevels(boolean exactNumberOfPlayableElements, int numberOfSolutionsAllowed) {
         int levelCount = 1;
