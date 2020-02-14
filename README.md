@@ -1,4 +1,4 @@
-# LevelSolutionFinderAndGenerator
+# Level solution finder and generator
 
 My level solution finder and level generator for the semester project "Overlays Reloaded" at HTW Berlin. 
 https://play.google.com/store/apps/details?id=com.overlaysteam.overlays
